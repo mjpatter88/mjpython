@@ -7,3 +7,5 @@ Supported Instructions:
 - LOAD_VALUE
 - ADD_TWO_VALUES
 - PRINT_ANSWER
+- STORE_NAME
+- LOAD_NAME
