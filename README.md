@@ -1,11 +1,6 @@
 # mjpython
 Michael's Python
 
-First pass doesn't support real Python byte code, just fake instructions.
+To execute tests from the root project dir: PYTHONPATH=$(pwd) pytest
 
 Supported Instructions:
-- LOAD_VALUE
-- ADD_TWO_VALUES
-- PRINT_ANSWER
-- STORE_NAME
-- LOAD_NAME
