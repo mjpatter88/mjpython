@@ -1,6 +1,8 @@
 from virtual_machine import VirtualMachine
 from frame import Frame
 
+from unittest.mock import MagicMock
+
 class TestVirtualMachine:
     def setup_method(self):
         self.vm = VirtualMachine()
@@ -43,3 +45,19 @@ class TestVirtualMachine:
         code = compile("None", "<string>", "eval")
         self.vm.return_value = 10
         assert self.vm.run_code(code) == 10
+
+    def test_instr_LOAD_CONST__adds_arg_to_current_frames_stack(self):
+        arg = 5
+        frame = MagicMock()
+        frame.stack = []
+        self.vm.push_frame(frame)
+        self.vm.instr_LOAD_CONST([arg])
+        assert frame.stack[0] == arg
+
+    def test_instr_RETURN_VALUE__sets_return_to_top_of_current_frames_stack_(self):
+        ret = 12
+        frame = MagicMock()
+        frame.stack = [ret]
+        self.vm.push_frame(frame)
+        self.vm.instr_RETURN_VALUE()
+        assert self.vm.return_value == ret
