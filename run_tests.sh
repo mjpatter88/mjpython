@@ -1,1 +1,1 @@
-PYTHONPATH=$(pwd) pytest
+PYTHONPATH=$(pwd) ptw
