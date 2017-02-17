@@ -9,5 +9,11 @@ class VirtualMachine(object):
         self.current_frame = None
         self.return_value = None
 
+    def push_frame(self, frame):
+        self.frames.append(frame)
+        self.current_frame = self.frames[-1]
+
     def run_code(self, code):
-        self.frames.append(Frame(code))
+        self.push_frame(Frame(code))
+
+        return self.return_value
