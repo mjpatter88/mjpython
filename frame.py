@@ -5,6 +5,10 @@ class Frame():
         self.code = code
         self.stack = []
         self.instr_pointer = 0
+        self.locals = {}
+
+    def set_local(self, name, value):
+        self.locals[name] = value
 
     def get_next_instr(self):
         byte_code = self.code.co_code[self.instr_pointer]
@@ -13,6 +17,10 @@ class Frame():
             index = self.code.co_code[self.instr_pointer]
             self.instr_pointer += 1
             args = [self.code.co_consts[index]]
+        elif byte_code in dis.haslocal:
+            index = self.code.co_code[self.instr_pointer]
+            self.instr_pointer += 1
+            args = [self.code.co_varnames[index]]
         else:
             args = []
         return dis.opname[byte_code], args

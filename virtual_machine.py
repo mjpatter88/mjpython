@@ -19,15 +19,19 @@ class VirtualMachine():
         return self.return_value
 
     def run_frame(self, frame):
-        instr, args = frame.get_next_instr()
-        f = getattr(self, "instr_{}".format(instr), None)
-        if f:
-            f(args)
-
-        instr, args = frame.get_next_instr()
-        f = getattr(self, "instr_{}".format(instr), None)
-        if f:
-            f()
+        control_code = None
+        while not control_code:
+            instr, args = frame.get_next_instr()
+            print(instr, args)
+            func = getattr(self, "instr_{}".format(instr), None)
+            if func:
+                if args:
+                    control_code = func(args)
+                else:
+                    control_code = func()
+            else:
+                control_code = "UNSUPPORTED_INSTRUCTION"
+        return control_code
 
 
     def instr_LOAD_CONST(self, args):
@@ -35,3 +39,9 @@ class VirtualMachine():
 
     def instr_RETURN_VALUE(self):
         self.return_value = self.current_frame.stack.pop()
+        return "RETURN"
+
+    def instr_STORE_FAST(self, args):
+        key = args[0]
+        val = self.current_frame.stack.pop()
+        self.current_frame.locals[key] = val
