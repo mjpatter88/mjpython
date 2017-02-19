@@ -20,10 +20,14 @@ class VirtualMachine():
 
     def run_frame(self, frame):
         instr, args = frame.get_next_instr()
-        getattr(self, "instr_{}".format(instr), None)([10])
+        f = getattr(self, "instr_{}".format(instr), None)
+        if f:
+            f(args)
 
         instr, args = frame.get_next_instr()
-        getattr(self, "instr_{}".format(instr), None)()
+        f = getattr(self, "instr_{}".format(instr), None)
+        if f:
+            f()
 
 
     def instr_LOAD_CONST(self, args):

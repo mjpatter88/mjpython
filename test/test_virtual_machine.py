@@ -42,7 +42,7 @@ class TestVirtualMachine:
         assert self.vm.frames[0].code == code
 
     def test_run_code__returns_the_result_of_execution(self):
-        code = compile("None", "<string>", "eval")
+        code = MagicMock()
         self.vm.return_value = 10
         assert self.vm.run_code(code) == 10
 
