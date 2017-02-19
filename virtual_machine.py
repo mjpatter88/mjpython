@@ -45,3 +45,8 @@ class VirtualMachine():
         key = args[0]
         val = self.current_frame.stack.pop()
         self.current_frame.locals[key] = val
+
+    def instr_LOAD_FAST(self, args):
+        key = args[0]
+        val = self.current_frame.locals[key]
+        self.current_frame.stack.append(val)
