@@ -89,6 +89,15 @@ class TestVirtualMachine:
         self.vm.instr_LOAD_FAST([arg])
         assert frame.stack == [7]
 
+    def test_instr_BINARY_ADD__sets_top_of_stack_to_sum_of_top_two_on_stack(self):
+        a = 7
+        b = 8
+        frame = MagicMock()
+        frame.stack = [a, b]
+        self.vm.push_frame(frame)
+        self.vm.instr_BINARY_ADD()
+        assert frame.stack == [a+b]
+
     def test_instr_RETURN_VALUE__sets_return_to_top_of_current_frames_stack(self):
         ret = 12
         frame = MagicMock()

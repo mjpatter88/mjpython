@@ -1,5 +1,5 @@
 # mjpython
-Michael's Python
+Michael's Python - A virtual machine for Python 3.6 bytecode
 
 To execute tests: ./run_tests.sh
 
@@ -8,6 +8,9 @@ https://docs.python.org/3.6/library/dis.html
 Supported Instructions:
 - RETURN_VALUE
 - LOAD_CONST
+- LOAD_FAST
+- STORE_FAST
+- BINARY_ADD
 
 Unsupported Instructions:
 - 'POP_TOP'
@@ -25,7 +28,6 @@ Unsupported Instructions:
 - 'BINARY_POWER'
 - 'BINARY_MULTIPLY'
 - 'BINARY_MODULO'
-- 'BINARY_ADD'
 - 'BINARY_SUBTRACT'
 - 'BINARY_SUBSCR'
 - 'BINARY_FLOOR_DIVIDE'
@@ -96,8 +98,6 @@ Unsupported Instructions:
 - 'SETUP_LOOP'
 - 'SETUP_EXCEPT'
 - 'SETUP_FINALLY'
-- 'LOAD_FAST'
-- 'STORE_FAST'
 - 'DELETE_FAST'
 - 'STORE_ANNOTATION'
 - 'RAISE_VARARGS'

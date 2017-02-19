@@ -38,12 +38,12 @@ class TestFrame:
         frame = Frame(code)
         assert frame.get_next_instr()[0] == instr
 
-    def test_get_next_instr__increments_inst_pointer(self):
+    def test_get_next_instr__increments_inst_pointer_by_two(self):
         code = MagicMock()
         code.co_code = [1]
         frame = Frame(code)
         frame.get_next_instr()
-        assert frame.instr_pointer == 1
+        assert frame.instr_pointer == 2
 
     def test_get_next_instr__returns_next_instruction(self):
         code = MagicMock()

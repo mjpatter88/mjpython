@@ -15,12 +15,13 @@ class Frame():
         self.instr_pointer += 1
         if byte_code in dis.hasconst:
             index = self.code.co_code[self.instr_pointer]
-            self.instr_pointer += 1
             args = [self.code.co_consts[index]]
         elif byte_code in dis.haslocal:
             index = self.code.co_code[self.instr_pointer]
-            self.instr_pointer += 1
             args = [self.code.co_varnames[index]]
         else:
             args = []
+        # Python 3.6 moved to a constant instruction size of 2 bytes.
+        # https://docs.python.org/3/whatsnew/3.6.html#cpython-bytecode-changes
+        self.instr_pointer += 1
         return dis.opname[byte_code], args

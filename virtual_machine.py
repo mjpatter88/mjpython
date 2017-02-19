@@ -50,3 +50,8 @@ class VirtualMachine():
         key = args[0]
         val = self.current_frame.locals[key]
         self.current_frame.stack.append(val)
+
+    def instr_BINARY_ADD(self):
+        a = self.current_frame.stack.pop()
+        b = self.current_frame.stack.pop()
+        self.current_frame.stack.append(a+b)
