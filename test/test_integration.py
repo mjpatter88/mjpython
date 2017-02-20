@@ -38,3 +38,10 @@ class TestByteCodeObjectExecution():
             b = 27
             return b - a
         assert self.vm.run_code(test_func.__code__) == 12
+
+    def test_multiplying_two_variables(self):
+        def test_func():
+            a = 15
+            b = 27
+            return a * b
+        assert self.vm.run_code(test_func.__code__) == 405
