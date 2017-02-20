@@ -61,3 +61,10 @@ class TestFrame:
         code.co_code = [dis.opmap[instr], 0]
         frame = Frame(code)
         assert frame.get_next_instr()[1] == ['foo']
+
+    def test_get_next_instr__returns_cmp_args(self):
+        code = MagicMock()
+        instr = "COMPARE_OP"
+        code.co_code = [dis.opmap[instr], 5]
+        frame = Frame(code)
+        assert frame.get_next_instr()[1] == [5]

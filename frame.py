@@ -19,6 +19,9 @@ class Frame():
         elif byte_code in dis.haslocal:
             index = self.code.co_code[self.instr_pointer]
             args = [self.code.co_varnames[index]]
+        elif byte_code in dis.hascompare:
+            index = self.code.co_code[self.instr_pointer]
+            args = [index]
         else:
             args = []
         # Python 3.6 moved to a constant instruction size of 2 bytes.

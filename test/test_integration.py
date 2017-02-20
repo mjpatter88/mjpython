@@ -45,3 +45,21 @@ class TestByteCodeObjectExecution():
             b = 27
             return a * b
         assert self.vm.run_code(test_func.__code__) == 405
+
+    def test_if_else__takes_if_branch(self):
+        def test_func():
+            x = 3
+            if x > 5:
+                return 'yes'
+            else:
+                return 'no'
+        assert self.vm.run_code(test_func.__code__) == 'yes'
+
+    def test_if_else__takes_else_branch(self):
+        def test_func():
+            x = 8
+            if x > 5:
+                return 'yes'
+            else:
+                return 'no'
+        assert self.vm.run_code(test_func.__code__) == 'no'

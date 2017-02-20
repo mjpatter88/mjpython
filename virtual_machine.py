@@ -1,5 +1,22 @@
 from frame import Frame
 
+import operator
+
+# Comparison operators are defined in cpython/Include/object.h
+CMP_OPS = [
+    operator.lt,
+    operator.le,
+    operator.eq,
+    operator.ne,
+    operator.gt,
+    operator.ge,
+    lambda x, y: x in y,
+    lambda x, y: x not in y,
+    lambda x, y: x is y,
+    lambda x, y: x is not y,
+    lambda x, y: issubclass(x, y)
+]
+
 class VirtualMachineError(Exception):
     pass
 
@@ -33,7 +50,7 @@ class VirtualMachine():
                 control_code = "UNSUPPORTED_INSTRUCTION"
         return control_code
 
-
+    ############################################################################
     def instr_LOAD_CONST(self, args):
         self.current_frame.stack.append(args[0])
 
@@ -65,3 +82,9 @@ class VirtualMachine():
         b = self.current_frame.stack.pop()
         a = self.current_frame.stack.pop()
         self.current_frame.stack.append(a*b)
+
+    def instr_COMPARE_OP(self, args):
+        func = CMP_OPS[args[0]]
+        b = self.current_frame.stack.pop()
+        a = self.current_frame.stack.pop()
+        self.current_frame.stack.append(func(a, b))
