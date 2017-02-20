@@ -24,3 +24,17 @@ class TestByteCodeObjectExecution():
             a = 15
             return a + 20
         assert self.vm.run_code(test_func.__code__) == 35
+
+    def test_adding_two_variables(self):
+        def test_func():
+            a = 15
+            b = 27
+            return a + b
+        assert self.vm.run_code(test_func.__code__) == 42
+
+    def test_subtracting_two_variables(self):
+        def test_func():
+            a = 15
+            b = 27
+            return b - a
+        assert self.vm.run_code(test_func.__code__) == 12

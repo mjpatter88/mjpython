@@ -11,6 +11,7 @@ Supported Instructions:
 - LOAD_FAST
 - STORE_FAST
 - BINARY_ADD
+- BINARY_SUBTRACT
 
 Unsupported Instructions:
 - 'POP_TOP'
@@ -28,7 +29,6 @@ Unsupported Instructions:
 - 'BINARY_POWER'
 - 'BINARY_MULTIPLY'
 - 'BINARY_MODULO'
-- 'BINARY_SUBTRACT'
 - 'BINARY_SUBSCR'
 - 'BINARY_FLOOR_DIVIDE'
 - 'BINARY_TRUE_DIVIDE'

@@ -98,6 +98,15 @@ class TestVirtualMachine:
         self.vm.instr_BINARY_ADD()
         assert frame.stack == [a+b]
 
+    def test_instr_BINARY_SUBTRACT__sets_top_of_stack_to_s1_minus_s0(self):
+        a = 10
+        b = 7
+        frame = MagicMock()
+        frame.stack = [a, b]
+        self.vm.push_frame(frame)
+        self.vm.instr_BINARY_SUBTRACT()
+        assert frame.stack == [a-b]
+
     def test_instr_RETURN_VALUE__sets_return_to_top_of_current_frames_stack(self):
         ret = 12
         frame = MagicMock()
