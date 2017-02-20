@@ -132,3 +132,75 @@ class TestVirtualMachine:
         self.vm.push_frame(frame)
         self.vm.instr_COMPARE_OP([6])
         assert frame.stack == [True]
+
+    def test_instr_COMPARE_OP__not_in_sets_top_of_stack_to_false(self):
+        a = 5
+        b = [5, 10]
+        frame = MagicMock()
+        frame.stack = [a, b]
+        self.vm.push_frame(frame)
+        self.vm.instr_COMPARE_OP([7])
+        assert frame.stack == [False]
+
+    def test_instr_COMPARE_OP__not_in_sets_top_of_stack_to_true(self):
+        a = 5
+        b = [7, 10]
+        frame = MagicMock()
+        frame.stack = [a, b]
+        self.vm.push_frame(frame)
+        self.vm.instr_COMPARE_OP([7])
+        assert frame.stack == [True]
+
+    def test_instr_COMPARE_OP__is_sets_top_of_stack_to_false(self):
+        a = MagicMock()
+        b = 5
+        frame = MagicMock()
+        frame.stack = [a, b]
+        self.vm.push_frame(frame)
+        self.vm.instr_COMPARE_OP([8])
+        assert frame.stack == [False]
+
+    def test_instr_COMPARE_OP__is_sets_top_of_stack_to_true(self):
+        a = MagicMock()
+        b = a
+        frame = MagicMock()
+        frame.stack = [a, b]
+        self.vm.push_frame(frame)
+        self.vm.instr_COMPARE_OP([8])
+        assert frame.stack == [True]
+
+    def test_instr_COMPARE_OP__not_is_sets_top_of_stack_to_false(self):
+        a = MagicMock()
+        b = a
+        frame = MagicMock()
+        frame.stack = [a, b]
+        self.vm.push_frame(frame)
+        self.vm.instr_COMPARE_OP([9])
+        assert frame.stack == [False]
+
+    def test_instr_COMPARE_OP__not_is_sets_top_of_stack_to_true(self):
+        a = MagicMock()
+        b = 5
+        frame = MagicMock()
+        frame.stack = [a, b]
+        self.vm.push_frame(frame)
+        self.vm.instr_COMPARE_OP([9])
+        assert frame.stack == [True]
+
+    def test_instr_COMPARE_OP__is_subclass_sets_top_of_stack_to_false(self):
+        a = MagicMock
+        b = int
+        frame = MagicMock()
+        frame.stack = [a, b]
+        self.vm.push_frame(frame)
+        self.vm.instr_COMPARE_OP([10])
+        assert frame.stack == [False]
+
+    def test_instr_COMPARE_OP__is_subclass_sets_top_of_stack_to_true(self):
+        a = MagicMock
+        b = object
+        frame = MagicMock()
+        frame.stack = [a, b]
+        self.vm.push_frame(frame)
+        self.vm.instr_COMPARE_OP([10])
+        assert frame.stack == [True]
