@@ -3,7 +3,7 @@ from frame import Frame
 
 from unittest.mock import MagicMock
 
-class TestVirtualMachine:
+class TestVirtualMachineComparisons:
     def setup_method(self):
         self.vm = VirtualMachine()
 
