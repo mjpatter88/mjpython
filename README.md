@@ -13,6 +13,7 @@ Supported Instructions:
 - BINARY_ADD
 - BINARY_SUBTRACT
 - BINARY_MULTIPLY
+- POP_JUMP_IF_FALSE
 
 Unsupported Instructions:
 - 'POP_TOP'
@@ -91,7 +92,6 @@ Unsupported Instructions:
 - 'JUMP_IF_FALSE_OR_POP'
 - 'JUMP_IF_TRUE_OR_POP'
 - 'JUMP_ABSOLUTE'
-- 'POP_JUMP_IF_FALSE'
 - 'POP_JUMP_IF_TRUE'
 - 'LOAD_GLOBAL'
 - 'CONTINUE_LOOP'

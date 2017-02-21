@@ -68,3 +68,10 @@ class TestFrame:
         code.co_code = [dis.opmap[instr], 5]
         frame = Frame(code)
         assert frame.get_next_instr()[1] == [5]
+
+    def test_get_next_instr__returns_jump_absolute_args(self):
+        code = MagicMock()
+        instr = "POP_JUMP_IF_FALSE"
+        code.co_code = [dis.opmap[instr], 2000]
+        frame = Frame(code)
+        assert frame.get_next_instr()[1] == [2000]

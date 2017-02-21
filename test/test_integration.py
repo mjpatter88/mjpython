@@ -49,7 +49,7 @@ class TestByteCodeObjectExecution():
     def test_if_else__takes_if_branch(self):
         def test_func():
             x = 3
-            if x > 5:
+            if x < 5:
                 return 'yes'
             else:
                 return 'no'
@@ -58,7 +58,7 @@ class TestByteCodeObjectExecution():
     def test_if_else__takes_else_branch(self):
         def test_func():
             x = 8
-            if x > 5:
+            if x < 5:
                 return 'yes'
             else:
                 return 'no'

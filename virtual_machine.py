@@ -88,3 +88,7 @@ class VirtualMachine():
         b = self.current_frame.stack.pop()
         a = self.current_frame.stack.pop()
         self.current_frame.stack.append(func(a, b))
+
+    def instr_POP_JUMP_IF_FALSE(self, args):
+        if not self.current_frame.stack.pop():
+            self.current_frame.instr_pointer = args[0]
