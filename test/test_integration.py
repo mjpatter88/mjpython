@@ -63,3 +63,11 @@ class TestByteCodeObjectExecution():
             else:
                 return 'no'
         assert self.vm.run_code(test_func.__code__) == 'no'
+
+    def test_while_loop(self):
+        def test_func():
+            x = 10
+            while x < 20:
+                x = x + 1
+            return x
+        assert self.vm.run_code(test_func.__code__) == 20
