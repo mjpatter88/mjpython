@@ -1,8 +1,9 @@
 # mjpython
-Michael's Python - A virtual machine for Python 3.6 bytecode
 [![Build Status](https://travis-ci.org/mjpatter88/mjpython.svg?branch=master)](https://travis-ci.org/mjpatter88/mjpython)
 
-To execute tests: ./run_tests.sh
+Michael's Python - A virtual machine for Python 3.6 bytecode
+
+To execute tests: `./run_tests.sh`
 
 https://docs.python.org/3.6/library/dis.html
 
@@ -15,6 +16,7 @@ Supported Instructions:
 - BINARY_SUBTRACT
 - BINARY_MULTIPLY
 - POP_JUMP_IF_FALSE
+- JUMP_ABSOLUTE
 
 Unsupported Instructions:
 - 'POP_TOP'
@@ -92,7 +94,6 @@ Unsupported Instructions:
 - 'JUMP_FORWARD'
 - 'JUMP_IF_FALSE_OR_POP'
 - 'JUMP_IF_TRUE_OR_POP'
-- 'JUMP_ABSOLUTE'
 - 'POP_JUMP_IF_TRUE'
 - 'LOAD_GLOBAL'
 - 'CONTINUE_LOOP'
