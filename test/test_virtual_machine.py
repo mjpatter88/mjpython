@@ -98,6 +98,12 @@ class TestVirtualMachine:
         self.vm.instr_POP_JUMP_IF_FALSE([arg])
         assert self.frame.instr_pointer == 0
 
+    def test_instr_JUMP_ABSOLUTE__sets_current_instruction_to_arg(self):
+        arg = 1000
+        self.vm.push_frame(self.frame)
+        self.vm.instr_JUMP_ABSOLUTE([arg])
+        assert self.frame.instr_pointer == arg
+
     def test_instr_RETURN_VALUE__sets_return_to_top_of_current_frames_stack(self):
         ret = 12
         self.frame.stack = [ret]

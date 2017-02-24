@@ -92,3 +92,12 @@ class VirtualMachine():
     def instr_POP_JUMP_IF_FALSE(self, args):
         if not self.current_frame.stack.pop():
             self.current_frame.instr_pointer = args[0]
+
+    def instr_SETUP_LOOP(self):
+        pass
+
+    def instr_POP_BLOCK(self):
+        pass
+
+    def instr_JUMP_ABSOLUTE(self, args):
+        self.current_frame.instr_pointer = args[0]
