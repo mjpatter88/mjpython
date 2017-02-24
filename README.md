@@ -1,5 +1,6 @@
 # mjpython
 Michael's Python - A virtual machine for Python 3.6 bytecode
+[![Build Status](https://travis-ci.org/mjpatter88/mjpython.svg?branch=master)](https://travis-ci.org/mjpatter88/mjpython)
 
 To execute tests: ./run_tests.sh
 
