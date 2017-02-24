@@ -1,0 +1,8 @@
+language: python
+python: 3.6
+
+install:
+    - pip install -Ur requirements.txt
+
+script:
+    - ./run_tests.sh
