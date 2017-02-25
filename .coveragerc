@@ -1,6 +1,8 @@
 [run]
-source = .
+branch = True
+source = ./
 
 [report]
+ignore_errors = True
 omit =
     test/*
