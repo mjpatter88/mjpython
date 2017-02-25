@@ -1,5 +1,6 @@
 # mjpython
 [![Build Status](https://travis-ci.org/mjpatter88/mjpython.svg?branch=master)](https://travis-ci.org/mjpatter88/mjpython)
+[![codecov](https://codecov.io/gh/mjpatter88/mjpython/branch/master/graph/badge.svg)](https://codecov.io/gh/mjpatter88/mjpython)
 
 Michael's Python - A virtual machine for Python 3.6 bytecode
 
