@@ -111,6 +111,21 @@ class TestVirtualMachine:
         self.vm.instr_RETURN_VALUE()
         assert self.vm.return_value == ret
 
+    def test_instr_SETUP_LOOP__sets_end_of_loop_on_current_frame_to_arg_offset(self):
+        arg = 1000
+        current_instr_pointer = 8
+        self.vm.push_frame(self.frame)
+        self.frame.instr_pointer = current_instr_pointer
+        self.vm.instr_SETUP_LOOP([arg])
+        expected_end_of_loop = arg + current_instr_pointer
+        assert self.frame.end_of_loop == expected_end_of_loop
+
+    def test_instr_BREAK_LOOP__sets_current_instruction_to_current_frame_loop_end(self):
+        self.frame.end_of_loop = 3000
+        self.vm.push_frame(self.frame)
+        self.vm.instr_BREAK_LOOP()
+        assert self.frame.instr_pointer == 3000
+
     def test_instr_RETURN_VALUE__returns_return_control_code(self):
         ret = 12
         self.frame.stack = [ret]

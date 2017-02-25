@@ -72,11 +72,11 @@ class TestByteCodeObjectExecution():
             return x
         assert self.vm.run_code(test_func.__code__) == 20
 
-#    def test_while_loop_break(self):
-#        def test_func():
-#            x = 10
-#            while x < 20:
-#                x = x + 1
-#                break
-#            return x
-#        assert self.vm.run_code(test_func.__code__) == 11
+    def test_while_loop_break(self):
+        def test_func():
+            x = 10
+            while x < 20:
+                x = x + 1
+                break
+            return x
+        assert self.vm.run_code(test_func.__code__) == 11

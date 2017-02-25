@@ -75,3 +75,10 @@ class TestFrame:
         code.co_code = [dis.opmap[instr], 2000]
         frame = Frame(code)
         assert frame.get_next_instr()[1] == [2000]
+
+    def test_get_next_instr__returns_jump_relative_args(self):
+        code = MagicMock()
+        instr = "SETUP_LOOP"
+        code.co_code = [dis.opmap[instr], 500]
+        frame = Frame(code)
+        assert frame.get_next_instr()[1] == [500]

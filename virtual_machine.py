@@ -93,8 +93,11 @@ class VirtualMachine():
         if not self.current_frame.stack.pop():
             self.current_frame.instr_pointer = args[0]
 
-    def instr_SETUP_LOOP(self):
-        pass
+    def instr_SETUP_LOOP(self, args):
+        self.current_frame.end_of_loop = args[0] + self.current_frame.instr_pointer
+
+    def instr_BREAK_LOOP(self):
+        self.current_frame.instr_pointer = self.current_frame.end_of_loop
 
     def instr_POP_BLOCK(self):
         pass

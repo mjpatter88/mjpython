@@ -18,6 +18,8 @@ Supported Instructions:
 - BINARY_MULTIPLY
 - POP_JUMP_IF_FALSE
 - JUMP_ABSOLUTE
+- BREAK_LOOP
+- SETUP_LOOP
 
 Unsupported Instructions:
 - 'POP_TOP'
@@ -65,7 +67,6 @@ Unsupported Instructions:
 - 'INPLACE_AND'
 - 'INPLACE_XOR'
 - 'INPLACE_OR'
-- 'BREAK_LOOP'
 - 'WITH_CLEANUP_START'
 - 'WITH_CLEANUP_FINISH'
 - 'IMPORT_STAR'
@@ -98,7 +99,6 @@ Unsupported Instructions:
 - 'POP_JUMP_IF_TRUE'
 - 'LOAD_GLOBAL'
 - 'CONTINUE_LOOP'
-- 'SETUP_LOOP'
 - 'SETUP_EXCEPT'
 - 'SETUP_FINALLY'
 - 'DELETE_FAST'
