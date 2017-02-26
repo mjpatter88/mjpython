@@ -1,1 +1,1 @@
-PYTHONPATH=$(pwd) ptw
+PYTHONPATH=$(pwd)/src ptw
