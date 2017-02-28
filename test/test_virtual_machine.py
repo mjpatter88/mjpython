@@ -1,4 +1,4 @@
-from virtual_machine import VirtualMachine
+from virtual_machine import VirtualMachine, BIN_OPS
 from frame import Frame
 
 from unittest.mock import MagicMock
@@ -52,6 +52,16 @@ class TestVirtualMachine:
         self.vm.push_frame(self.frame)
         self.vm.run_frame(self.frame)
         assert self.vm.return_value == 10
+
+    def test_get_func__returns_instr_function(self):
+        instr = "LOAD_CONST"
+        arg = 0
+        assert self.vm.get_func_and_arg(instr, arg) == (self.vm.instr_LOAD_CONST, arg)
+
+    def test_get_func__returns_binary_function_with_op_arg(self):
+        instr = "BINARY_ADD"
+        arg = 0
+        assert self.vm.get_func_and_arg(instr, arg) == (self.vm.instr_BINARY_OP, BIN_OPS["BINARY_ADD"])
 
     def test_instr_LOAD_CONST__adds_arg_to_current_frames_stack(self):
         arg = 5
