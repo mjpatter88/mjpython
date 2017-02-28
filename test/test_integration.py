@@ -80,3 +80,15 @@ class TestByteCodeObjectExecution():
                 break
             return x
         assert self.vm.run_code(test_func.__code__) == 11
+
+    def test_while_loop_continue(self):
+        def test_func():
+            x = 10
+            y = 0
+            while y < 5:
+                y = y + 1
+                if True:
+                    continue
+                x += 10
+            return x
+        assert self.vm.run_code(test_func.__code__) == 10
