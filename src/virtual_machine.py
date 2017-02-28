@@ -38,74 +38,69 @@ class VirtualMachine():
     def run_frame(self, frame):
         control_code = None
         while not control_code:
-            instr, args = frame.get_next_instr()
-            print(instr, args)
+            instr, arg = frame.get_next_instr()
+            print(instr, arg)
             func = getattr(self, "instr_{}".format(instr), None)
             if func:
-                if args:
-                    control_code = func(args)
-                else:
-                    control_code = func()
+                control_code = func(arg)
             else:
                 control_code = "UNSUPPORTED_INSTRUCTION"
         return control_code
 
     ############################################################################
-    def instr_LOAD_CONST(self, args):
-        self.current_frame.stack.append(args[0])
+    def instr_LOAD_CONST(self, arg):
+        self.current_frame.stack.append(arg)
 
-    def instr_RETURN_VALUE(self):
+    def instr_RETURN_VALUE(self, arg):
         self.return_value = self.current_frame.stack.pop()
         return "RETURN"
 
-    def instr_STORE_FAST(self, args):
-        key = args[0]
+    def instr_STORE_FAST(self, arg):
         val = self.current_frame.stack.pop()
-        self.current_frame.locals[key] = val
+        self.current_frame.locals[arg] = val
 
-    def instr_LOAD_FAST(self, args):
-        key = args[0]
-        val = self.current_frame.locals[key]
+    def instr_LOAD_FAST(self, arg):
+        val = self.current_frame.locals[arg]
         self.current_frame.stack.append(val)
 
-    def instr_BINARY_ADD(self):
+    def instr_BINARY_ADD(self, arg):
         b = self.current_frame.stack.pop()
         a = self.current_frame.stack.pop()
         self.current_frame.stack.append(a+b)
 
-    def instr_BINARY_SUBTRACT(self):
+    def instr_BINARY_SUBTRACT(self, arg):
         b = self.current_frame.stack.pop()
         a = self.current_frame.stack.pop()
         self.current_frame.stack.append(a-b)
 
-    def instr_BINARY_MULTIPLY(self):
+    def instr_BINARY_MULTIPLY(self, arg):
         b = self.current_frame.stack.pop()
         a = self.current_frame.stack.pop()
         self.current_frame.stack.append(a*b)
 
-    def instr_INPLACE_ADD(self,):
+    def instr_INPLACE_ADD(self, arg):
         b = self.current_frame.stack.pop()
         a = self.current_frame.stack.pop()
         self.current_frame.stack.append(a+b)
 
-    def instr_COMPARE_OP(self, args):
-        func = CMP_OPS[args[0]]
+    def instr_COMPARE_OP(self, arg):
+        func = CMP_OPS[arg]
         b = self.current_frame.stack.pop()
         a = self.current_frame.stack.pop()
         self.current_frame.stack.append(func(a, b))
 
-    def instr_POP_JUMP_IF_FALSE(self, args):
+    def instr_POP_JUMP_IF_FALSE(self, arg):
         if not self.current_frame.stack.pop():
-            self.current_frame.instr_pointer = args[0]
+            self.current_frame.instr_pointer = arg
 
-    def instr_SETUP_LOOP(self, args):
-        self.current_frame.end_of_loop = args[0] + self.current_frame.instr_pointer
+    def instr_SETUP_LOOP(self, arg):
+        self.current_frame.end_of_loop = arg + self.current_frame.instr_pointer
 
-    def instr_BREAK_LOOP(self):
+    def instr_BREAK_LOOP(self, arg):
         self.current_frame.instr_pointer = self.current_frame.end_of_loop
 
-    def instr_POP_BLOCK(self):
+    def instr_POP_BLOCK(self, arg):
         pass
 
-    def instr_JUMP_ABSOLUTE(self, args):
-        self.current_frame.instr_pointer = args[0]
+    def instr_JUMP_ABSOLUTE(self, arg):
+        self.current_frame.instr_pointer = arg

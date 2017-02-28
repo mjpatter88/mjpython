@@ -13,7 +13,7 @@ class TestVirtualMachineComparisons:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_COMPARE_OP([0])
+        self.vm.instr_COMPARE_OP(0)
         assert frame.stack == [False]
 
     def test_instr_COMPARE_OP__lt_sets_top_of_stack_to_true(self):
@@ -22,7 +22,7 @@ class TestVirtualMachineComparisons:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_COMPARE_OP([0])
+        self.vm.instr_COMPARE_OP(0)
         assert frame.stack == [True]
 
     def test_instr_COMPARE_OP__le_sets_top_of_stack_to_false(self):
@@ -31,7 +31,7 @@ class TestVirtualMachineComparisons:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_COMPARE_OP([1])
+        self.vm.instr_COMPARE_OP(1)
         assert frame.stack == [False]
 
     def test_instr_COMPARE_OP__le_sets_top_of_stack_to_true(self):
@@ -40,7 +40,7 @@ class TestVirtualMachineComparisons:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_COMPARE_OP([1])
+        self.vm.instr_COMPARE_OP(1)
         assert frame.stack == [True]
 
     def test_instr_COMPARE_OP__eq_sets_top_of_stack_to_false(self):
@@ -49,7 +49,7 @@ class TestVirtualMachineComparisons:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_COMPARE_OP([2])
+        self.vm.instr_COMPARE_OP(2)
         assert frame.stack == [False]
 
     def test_instr_COMPARE_OP__eq_sets_top_of_stack_to_true(self):
@@ -58,7 +58,7 @@ class TestVirtualMachineComparisons:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_COMPARE_OP([2])
+        self.vm.instr_COMPARE_OP(2)
         assert frame.stack == [True]
 
     def test_instr_COMPARE_OP__ne_sets_top_of_stack_to_false(self):
@@ -67,7 +67,7 @@ class TestVirtualMachineComparisons:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_COMPARE_OP([3])
+        self.vm.instr_COMPARE_OP(3)
         assert frame.stack == [False]
 
     def test_instr_COMPARE_OP__ne_sets_top_of_stack_to_true(self):
@@ -76,7 +76,7 @@ class TestVirtualMachineComparisons:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_COMPARE_OP([3])
+        self.vm.instr_COMPARE_OP(3)
         assert frame.stack == [True]
 
     def test_instr_COMPARE_OP__gt_sets_top_of_stack_to_false(self):
@@ -85,7 +85,7 @@ class TestVirtualMachineComparisons:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_COMPARE_OP([4])
+        self.vm.instr_COMPARE_OP(4)
         assert frame.stack == [False]
 
     def test_instr_COMPARE_OP__gt_sets_top_of_stack_to_true(self):
@@ -94,7 +94,7 @@ class TestVirtualMachineComparisons:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_COMPARE_OP([4])
+        self.vm.instr_COMPARE_OP(4)
         assert frame.stack == [True]
 
     def test_instr_COMPARE_OP__ge_sets_top_of_stack_to_false(self):
@@ -103,7 +103,7 @@ class TestVirtualMachineComparisons:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_COMPARE_OP([5])
+        self.vm.instr_COMPARE_OP(5)
         assert frame.stack == [False]
 
     def test_instr_COMPARE_OP__ge_sets_top_of_stack_to_true(self):
@@ -112,7 +112,7 @@ class TestVirtualMachineComparisons:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_COMPARE_OP([5])
+        self.vm.instr_COMPARE_OP(5)
         assert frame.stack == [True]
 
     def test_instr_COMPARE_OP__in_sets_top_of_stack_to_false(self):
@@ -121,7 +121,7 @@ class TestVirtualMachineComparisons:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_COMPARE_OP([6])
+        self.vm.instr_COMPARE_OP(6)
         assert frame.stack == [False]
 
     def test_instr_COMPARE_OP__in_sets_top_of_stack_to_true(self):
@@ -130,7 +130,7 @@ class TestVirtualMachineComparisons:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_COMPARE_OP([6])
+        self.vm.instr_COMPARE_OP(6)
         assert frame.stack == [True]
 
     def test_instr_COMPARE_OP__not_in_sets_top_of_stack_to_false(self):
@@ -139,7 +139,7 @@ class TestVirtualMachineComparisons:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_COMPARE_OP([7])
+        self.vm.instr_COMPARE_OP(7)
         assert frame.stack == [False]
 
     def test_instr_COMPARE_OP__not_in_sets_top_of_stack_to_true(self):
@@ -148,7 +148,7 @@ class TestVirtualMachineComparisons:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_COMPARE_OP([7])
+        self.vm.instr_COMPARE_OP(7)
         assert frame.stack == [True]
 
     def test_instr_COMPARE_OP__is_sets_top_of_stack_to_false(self):
@@ -157,7 +157,7 @@ class TestVirtualMachineComparisons:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_COMPARE_OP([8])
+        self.vm.instr_COMPARE_OP(8)
         assert frame.stack == [False]
 
     def test_instr_COMPARE_OP__is_sets_top_of_stack_to_true(self):
@@ -166,7 +166,7 @@ class TestVirtualMachineComparisons:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_COMPARE_OP([8])
+        self.vm.instr_COMPARE_OP(8)
         assert frame.stack == [True]
 
     def test_instr_COMPARE_OP__not_is_sets_top_of_stack_to_false(self):
@@ -175,7 +175,7 @@ class TestVirtualMachineComparisons:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_COMPARE_OP([9])
+        self.vm.instr_COMPARE_OP(9)
         assert frame.stack == [False]
 
     def test_instr_COMPARE_OP__not_is_sets_top_of_stack_to_true(self):
@@ -184,7 +184,7 @@ class TestVirtualMachineComparisons:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_COMPARE_OP([9])
+        self.vm.instr_COMPARE_OP(9)
         assert frame.stack == [True]
 
     def test_instr_COMPARE_OP__is_subclass_sets_top_of_stack_to_false(self):
@@ -193,7 +193,7 @@ class TestVirtualMachineComparisons:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_COMPARE_OP([10])
+        self.vm.instr_COMPARE_OP(10)
         assert frame.stack == [False]
 
     def test_instr_COMPARE_OP__is_subclass_sets_top_of_stack_to_true(self):
@@ -202,5 +202,5 @@ class TestVirtualMachineComparisons:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_COMPARE_OP([10])
+        self.vm.instr_COMPARE_OP(10)
         assert frame.stack == [True]

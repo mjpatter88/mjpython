@@ -13,7 +13,7 @@ class TestVirtualMachineBinaryOperations:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_BINARY_ADD()
+        self.vm.instr_BINARY_ADD(0)
         assert frame.stack == [a+b]
 
     def test_instr_BINARY_ADD__concatenates_two_strings(self):
@@ -22,7 +22,7 @@ class TestVirtualMachineBinaryOperations:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_BINARY_ADD()
+        self.vm.instr_BINARY_ADD(0)
         assert frame.stack == [a+b]
 
     def test_instr_BINARY_SUBTRACT__sets_top_of_stack_to_s1_minus_s0(self):
@@ -31,7 +31,7 @@ class TestVirtualMachineBinaryOperations:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_BINARY_SUBTRACT()
+        self.vm.instr_BINARY_SUBTRACT(0)
         assert frame.stack == [a-b]
 
     def test_instr_BINARY_MULTIPLY__sets_top_of_stack_to_s1_times_s0(self):
@@ -40,5 +40,5 @@ class TestVirtualMachineBinaryOperations:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_BINARY_MULTIPLY()
+        self.vm.instr_BINARY_MULTIPLY(0)
         assert frame.stack == [a*b]

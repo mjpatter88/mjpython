@@ -46,8 +46,8 @@ class TestVirtualMachine:
         assert self.vm.run_code(code) == 10
 
     def test_run_frame__stops_execution_at_return(self):
-        self.frame.get_next_instr.side_effect = [("LOAD_CONST", [10]), ("RETURN_VALUE", []),
-                                            ("LOAD_CONST", [15]), ("RETURN_VALUE", [])]
+        self.frame.get_next_instr.side_effect = [("LOAD_CONST", 10), ("RETURN_VALUE", 0),
+                                            ("LOAD_CONST", 15), ("RETURN_VALUE", 0)]
         self.frame.stack = []
         self.vm.push_frame(self.frame)
         self.vm.run_frame(self.frame)
@@ -57,14 +57,13 @@ class TestVirtualMachine:
         arg = 5
         self.frame.stack = []
         self.vm.push_frame(self.frame)
-        self.vm.instr_LOAD_CONST([arg])
+        self.vm.instr_LOAD_CONST(arg)
         assert self.frame.stack[0] == arg
 
     def test_instr_STORE_FAST__removes_top_off_current_frames_stack(self):
-        arg = 5
         self.frame.stack = [7]
         self.vm.push_frame(self.frame)
-        self.vm.instr_STORE_FAST([arg])
+        self.vm.instr_STORE_FAST(5)
         assert len(self.frame.stack) == 0
 
     def test_instr_STORE_FAST__adds_arg_and_top_of_current_frames_stack_to_current_frames_locals(self):
@@ -72,7 +71,7 @@ class TestVirtualMachine:
         self.frame.stack = [7]
         self.frame.locals = {}
         self.vm.push_frame(self.frame)
-        self.vm.instr_STORE_FAST([arg])
+        self.vm.instr_STORE_FAST(arg)
         assert self.frame.locals == {arg: 7}
 
     def test_instr_LOAD_FAST__loads_current_frames_local_val_to_current_frames_stack(self):
@@ -80,14 +79,14 @@ class TestVirtualMachine:
         self.frame.stack = []
         self.frame.locals = {arg: 7}
         self.vm.push_frame(self.frame)
-        self.vm.instr_LOAD_FAST([arg])
+        self.vm.instr_LOAD_FAST(arg)
         assert self.frame.stack == [7]
 
     def test_instr_POP_JUMP_IF_FALSE__sets_current_instruction_to_arg_when_false(self):
         arg = 1000
         self.frame.stack =[False]
         self.vm.push_frame(self.frame)
-        self.vm.instr_POP_JUMP_IF_FALSE([arg])
+        self.vm.instr_POP_JUMP_IF_FALSE(arg)
         assert self.frame.instr_pointer == 1000
 
     def test_instr_POP_JUMP_IF_FALSE__does_not_set_current_instruction_to_arg_when_true(self):
@@ -95,20 +94,20 @@ class TestVirtualMachine:
         self.frame.instr_pointer = 0
         self.frame.stack =[True]
         self.vm.push_frame(self.frame)
-        self.vm.instr_POP_JUMP_IF_FALSE([arg])
+        self.vm.instr_POP_JUMP_IF_FALSE(arg)
         assert self.frame.instr_pointer == 0
 
     def test_instr_JUMP_ABSOLUTE__sets_current_instruction_to_arg(self):
         arg = 1000
         self.vm.push_frame(self.frame)
-        self.vm.instr_JUMP_ABSOLUTE([arg])
+        self.vm.instr_JUMP_ABSOLUTE(arg)
         assert self.frame.instr_pointer == arg
 
     def test_instr_RETURN_VALUE__sets_return_to_top_of_current_frames_stack(self):
         ret = 12
         self.frame.stack = [ret]
         self.vm.push_frame(self.frame)
-        self.vm.instr_RETURN_VALUE()
+        self.vm.instr_RETURN_VALUE(0)
         assert self.vm.return_value == ret
 
     def test_instr_SETUP_LOOP__sets_end_of_loop_on_current_frame_to_arg_offset(self):
@@ -116,18 +115,18 @@ class TestVirtualMachine:
         current_instr_pointer = 8
         self.vm.push_frame(self.frame)
         self.frame.instr_pointer = current_instr_pointer
-        self.vm.instr_SETUP_LOOP([arg])
+        self.vm.instr_SETUP_LOOP(arg)
         expected_end_of_loop = arg + current_instr_pointer
         assert self.frame.end_of_loop == expected_end_of_loop
 
     def test_instr_BREAK_LOOP__sets_current_instruction_to_current_frame_loop_end(self):
         self.frame.end_of_loop = 3000
         self.vm.push_frame(self.frame)
-        self.vm.instr_BREAK_LOOP()
+        self.vm.instr_BREAK_LOOP(0)
         assert self.frame.instr_pointer == 3000
 
     def test_instr_RETURN_VALUE__returns_return_control_code(self):
         ret = 12
         self.frame.stack = [ret]
         self.vm.push_frame(self.frame)
-        assert self.vm.instr_RETURN_VALUE() == "RETURN"
+        assert self.vm.instr_RETURN_VALUE(0) == "RETURN"
