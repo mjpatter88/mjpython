@@ -20,6 +20,7 @@ Supported Instructions:
 - JUMP_ABSOLUTE
 - BREAK_LOOP
 - SETUP_LOOP
+- INPLACE_ADD
 
 Unsupported Instructions:
 - 'POP_TOP'
@@ -44,7 +45,6 @@ Unsupported Instructions:
 - 'GET_AITER'
 - 'GET_ANEXT'
 - 'BEFORE_ASYNC_WITH'
-- 'INPLACE_ADD'
 - 'INPLACE_SUBTRACT'
 - 'INPLACE_MULTIPLY'
 - 'INPLACE_MODULO'

@@ -46,6 +46,13 @@ class TestByteCodeObjectExecution():
             return a * b
         assert self.vm.run_code(test_func.__code__) == 405
 
+    def test_in_place_add(self):
+        def test_func():
+            a = 15
+            a += 5
+            return a
+        assert self.vm.run_code(test_func.__code__) == 20
+
     def test_if_else__takes_if_branch(self):
         def test_func():
             x = 3

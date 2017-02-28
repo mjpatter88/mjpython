@@ -83,6 +83,11 @@ class VirtualMachine():
         a = self.current_frame.stack.pop()
         self.current_frame.stack.append(a*b)
 
+    def instr_INPLACE_ADD(self,):
+        b = self.current_frame.stack.pop()
+        a = self.current_frame.stack.pop()
+        self.current_frame.stack.append(a+b)
+
     def instr_COMPARE_OP(self, args):
         func = CMP_OPS[args[0]]
         b = self.current_frame.stack.pop()
