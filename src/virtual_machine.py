@@ -20,7 +20,8 @@ CMP_OPS = [
 BIN_OPS = {
     "BINARY_ADD": operator.add,
     "BINARY_SUBTRACT": operator.sub,
-    "BINARY_MULTIPLY": operator.mul
+    "BINARY_MULTIPLY": operator.mul,
+    "BINARY_POWER": operator.pow
 }
 
 class VirtualMachineError(Exception):

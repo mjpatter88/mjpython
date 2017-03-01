@@ -36,3 +36,8 @@ class TestVirtualMachineBinaryOperations:
         func = BIN_OPS["BINARY_MULTIPLY"]
         self.vm.binary_operation(func)
         assert self.vm.current_frame.stack == [self.a * self.b]
+
+    def test_instr_BINARY_POWER__sets_top_of_stack_to_s1_to_the_power_of_s0(self):
+        func = BIN_OPS["BINARY_POWER"]
+        self.vm.binary_operation(func)
+        assert self.vm.current_frame.stack == [self.a ** self.b]
