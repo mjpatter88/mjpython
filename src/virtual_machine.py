@@ -55,7 +55,7 @@ class VirtualMachine():
 
     def get_func_and_arg(self, instr, arg):
         if instr.startswith("BINARY"):
-            func = self.instr_BINARY_OP
+            func = self.binary_operation
             arg = BIN_OPS[instr]
             return func, arg
         else:
@@ -105,7 +105,7 @@ class VirtualMachine():
         self.current_frame.instr_pointer = arg
 
     # The following method handles all binary operations
-    def instr_BINARY_OP(self, func):
+    def binary_operation(self, func):
         b = self.current_frame.stack.pop()
         a = self.current_frame.stack.pop()
         self.current_frame.stack.append(func(a, b))

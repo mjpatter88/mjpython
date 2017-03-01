@@ -14,7 +14,7 @@ class TestVirtualMachineBinaryOperations:
 
     def test_instr_BINARY_ADD__sets_top_of_stack_to_sum_of_top_two_on_stack(self):
         func = BIN_OPS["BINARY_ADD"]
-        self.vm.instr_BINARY_OP(func)
+        self.vm.binary_operation(func)
         assert self.vm.current_frame.stack == [self.a + self.b]
 
     def test_instr_BINARY_ADD__concatenates_two_strings(self):
@@ -24,15 +24,15 @@ class TestVirtualMachineBinaryOperations:
         frame.stack = [a, b]
         self.vm.push_frame(frame)
         func = BIN_OPS["BINARY_ADD"]
-        self.vm.instr_BINARY_OP(func)
+        self.vm.binary_operation(func)
         assert self.vm.current_frame.stack == [a + b]
 
     def test_instr_BINARY_SUBTRACT__sets_top_of_stack_to_s1_minus_s0(self):
         func = BIN_OPS["BINARY_SUBTRACT"]
-        self.vm.instr_BINARY_OP(func)
+        self.vm.binary_operation(func)
         assert self.vm.current_frame.stack == [self.a - self.b]
 
     def test_instr_BINARY_MULTIPLY__sets_top_of_stack_to_s1_times_s0(self):
         func = BIN_OPS["BINARY_MULTIPLY"]
-        self.vm.instr_BINARY_OP(func)
+        self.vm.binary_operation(func)
         assert self.vm.current_frame.stack == [self.a * self.b]
