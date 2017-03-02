@@ -21,7 +21,16 @@ BIN_OPS = {
     "BINARY_ADD": operator.add,
     "BINARY_SUBTRACT": operator.sub,
     "BINARY_MULTIPLY": operator.mul,
-    "BINARY_POWER": operator.pow
+    "BINARY_POWER": operator.pow,
+    "BINARY_FLOOR_DIVIDE": operator.floordiv,
+    "BINARY_TRUE_DIVIDE": operator.truediv,
+    "BINARY_MODULO": operator.mod,
+    "BINARY_SUBSCR": operator.getitem,
+    "BINARY_LSHIFT": operator.lshift,
+    "BINARY_RSHIFT": operator.rshift,
+    "BINARY_AND": operator.and_,
+    "BINARY_XOR": operator.xor,
+    "BINARY_OR": operator.or_
 }
 
 class VirtualMachineError(Exception):
