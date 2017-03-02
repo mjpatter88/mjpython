@@ -53,6 +53,13 @@ class TestByteCodeObjectExecution():
             return a
         assert self.vm.run_code(test_func.__code__) == 20
 
+    def test_in_place_floor_division(self):
+        def test_func():
+            a = 10
+            a //= 3
+            return a
+        assert self.vm.run_code(test_func.__code__) == 3
+
     def test_if_else__takes_if_branch(self):
         def test_func():
             x = 3

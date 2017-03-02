@@ -13,7 +13,7 @@ class TestVirtualMachineBinaryOperations:
         self.vm.push_frame(frame)
 
     def test_instr_BINARY_ADD__sets_top_of_stack_to_sum_of_top_two_on_stack(self):
-        func = BIN_OPS["BINARY_ADD"]
+        func = BIN_OPS["ADD"]
         self.vm.binary_operation(func)
         assert self.vm.current_frame.stack == [self.a + self.b]
 
@@ -23,37 +23,37 @@ class TestVirtualMachineBinaryOperations:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        func = BIN_OPS["BINARY_ADD"]
+        func = BIN_OPS["ADD"]
         self.vm.binary_operation(func)
         assert self.vm.current_frame.stack == [a + b]
 
     def test_instr_BINARY_SUBTRACT__sets_top_of_stack_to_s1_minus_s0(self):
-        func = BIN_OPS["BINARY_SUBTRACT"]
+        func = BIN_OPS["SUBTRACT"]
         self.vm.binary_operation(func)
         assert self.vm.current_frame.stack == [self.a - self.b]
 
     def test_instr_BINARY_MULTIPLY__sets_top_of_stack_to_s1_times_s0(self):
-        func = BIN_OPS["BINARY_MULTIPLY"]
+        func = BIN_OPS["MULTIPLY"]
         self.vm.binary_operation(func)
         assert self.vm.current_frame.stack == [self.a * self.b]
 
     def test_instr_BINARY_POWER__sets_top_of_stack_to_s1_to_the_power_of_s0(self):
-        func = BIN_OPS["BINARY_POWER"]
+        func = BIN_OPS["POWER"]
         self.vm.binary_operation(func)
         assert self.vm.current_frame.stack == [self.a ** self.b]
 
     def test_instr_BINARY_FLOOR_DIVIDE__sets_top_of_stack_to_s1_divided_by_s0_rounded_down(self):
-        func = BIN_OPS["BINARY_FLOOR_DIVIDE"]
+        func = BIN_OPS["FLOOR_DIVIDE"]
         self.vm.binary_operation(func)
         assert self.vm.current_frame.stack == [self.a // self.b]
 
     def test_instr_BINARY_TRUE_DIVIDE__sets_top_of_stack_to_s1_divided_by_s0(self):
-        func = BIN_OPS["BINARY_TRUE_DIVIDE"]
+        func = BIN_OPS["TRUE_DIVIDE"]
         self.vm.binary_operation(func)
         assert self.vm.current_frame.stack == [self.a / self.b]
 
     def test_instr_BINARY_MODULO__sets_top_of_stack_to_s1_modulus_s0(self):
-        func = BIN_OPS["BINARY_MODULO"]
+        func = BIN_OPS["MODULO"]
         self.vm.binary_operation(func)
         assert self.vm.current_frame.stack == [self.a % self.b]
 
@@ -61,31 +61,31 @@ class TestVirtualMachineBinaryOperations:
         a = [0,2,4,6]
         b = 2
         self.vm.current_frame.stack = [a, b]
-        func = BIN_OPS["BINARY_SUBSCR"]
+        func = BIN_OPS["SUBSCR"]
         self.vm.binary_operation(func)
         assert self.vm.current_frame.stack == [a[b]]
 
     def test_instr_BINARY_LSHIFT__sets_top_of_stack_to_s1_left_shifted_by_s0(self):
-        func = BIN_OPS["BINARY_LSHIFT"]
+        func = BIN_OPS["LSHIFT"]
         self.vm.binary_operation(func)
         assert self.vm.current_frame.stack == [self.a << self.b]
 
     def test_instr_BINARY_RSHIFT__sets_top_of_stack_to_s1_right_shifted_by_s0(self):
-        func = BIN_OPS["BINARY_RSHIFT"]
+        func = BIN_OPS["RSHIFT"]
         self.vm.binary_operation(func)
         assert self.vm.current_frame.stack == [self.a >> self.b]
 
     def test_instr_BINARY_AND__sets_top_of_stack_to_s1_anded_with_s0(self):
-        func = BIN_OPS["BINARY_AND"]
+        func = BIN_OPS["AND"]
         self.vm.binary_operation(func)
         assert self.vm.current_frame.stack == [self.a & self.b]
 
     def test_instr_BINARY_XOR__sets_top_of_stack_to_s1_xored_with_s0(self):
-        func = BIN_OPS["BINARY_XOR"]
+        func = BIN_OPS["XOR"]
         self.vm.binary_operation(func)
         assert self.vm.current_frame.stack == [self.a ^ self.b]
 
     def test_instr_BINARY_OR__sets_top_of_stack_to_s1_ored_with_s0(self):
-        func = BIN_OPS["BINARY_OR"]
+        func = BIN_OPS["OR"]
         self.vm.binary_operation(func)
         assert self.vm.current_frame.stack == [self.a | self.b]

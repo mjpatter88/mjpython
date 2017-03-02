@@ -61,7 +61,17 @@ class TestVirtualMachine:
     def test_get_func__returns_binary_function_with_op_arg(self):
         instr = "BINARY_ADD"
         arg = 0
-        assert self.vm.get_func_and_arg(instr, arg) == (self.vm.binary_operation, BIN_OPS["BINARY_ADD"])
+        assert self.vm.get_func_and_arg(instr, arg) == (self.vm.binary_operation, BIN_OPS["ADD"])
+
+    def test_get_func__returns_binary_function_with_op_arg_when_inplace(self):
+        instr = "INPLACE_ADD"
+        arg = 0
+        assert self.vm.get_func_and_arg(instr, arg) == (self.vm.binary_operation, BIN_OPS["ADD"])
+
+    def test_get_func__returns_binary_function_with_op_arg_when_inplace_two_words(self):
+        instr = "INPLACE_FLOOR_DIVIDE"
+        arg = 0
+        assert self.vm.get_func_and_arg(instr, arg) == (self.vm.binary_operation, BIN_OPS["FLOOR_DIVIDE"])
 
     def test_instr_LOAD_CONST__adds_arg_to_current_frames_stack(self):
         arg = 5

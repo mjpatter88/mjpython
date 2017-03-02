@@ -18,19 +18,19 @@ CMP_OPS = [
 ]
 
 BIN_OPS = {
-    "BINARY_ADD": operator.add,
-    "BINARY_SUBTRACT": operator.sub,
-    "BINARY_MULTIPLY": operator.mul,
-    "BINARY_POWER": operator.pow,
-    "BINARY_FLOOR_DIVIDE": operator.floordiv,
-    "BINARY_TRUE_DIVIDE": operator.truediv,
-    "BINARY_MODULO": operator.mod,
-    "BINARY_SUBSCR": operator.getitem,
-    "BINARY_LSHIFT": operator.lshift,
-    "BINARY_RSHIFT": operator.rshift,
-    "BINARY_AND": operator.and_,
-    "BINARY_XOR": operator.xor,
-    "BINARY_OR": operator.or_
+    "ADD": operator.add,
+    "SUBTRACT": operator.sub,
+    "MULTIPLY": operator.mul,
+    "POWER": operator.pow,
+    "FLOOR_DIVIDE": operator.floordiv,
+    "TRUE_DIVIDE": operator.truediv,
+    "MODULO": operator.mod,
+    "SUBSCR": operator.getitem,
+    "LSHIFT": operator.lshift,
+    "RSHIFT": operator.rshift,
+    "AND": operator.and_,
+    "XOR": operator.xor,
+    "OR": operator.or_
 }
 
 class VirtualMachineError(Exception):
@@ -64,9 +64,10 @@ class VirtualMachine():
         return control_code
 
     def get_func_and_arg(self, instr, arg):
-        if instr.startswith("BINARY"):
+        if instr.startswith("INPLACE") or instr.startswith("BINARY"):
             func = self.binary_operation
-            arg = BIN_OPS[instr]
+            op = "_".join(instr.split("_")[1:])
+            arg = BIN_OPS[op]
             return func, arg
         else:
             return getattr(self, "instr_{}".format(instr), None), arg
@@ -87,10 +88,6 @@ class VirtualMachine():
     def instr_LOAD_FAST(self, arg):
         val = self.current_frame.locals[arg]
         self.current_frame.stack.append(val)
-    def instr_INPLACE_ADD(self, arg):
-        b = self.current_frame.stack.pop()
-        a = self.current_frame.stack.pop()
-        self.current_frame.stack.append(a+b)
 
     def instr_COMPARE_OP(self, arg):
         func = CMP_OPS[arg]
@@ -114,7 +111,9 @@ class VirtualMachine():
     def instr_JUMP_ABSOLUTE(self, arg):
         self.current_frame.instr_pointer = arg
 
-    # The following method handles all binary operations
+    # The following method handles all binary operations.
+    # It also handles all inplace operations, as they are basically just
+    # a special case of the binary operations
     def binary_operation(self, func):
         b = self.current_frame.stack.pop()
         a = self.current_frame.stack.pop()

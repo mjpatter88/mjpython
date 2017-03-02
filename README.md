@@ -10,21 +10,21 @@ https://docs.python.org/3.6/library/dis.html
 
 Supported Instructions:
 
-| Binary Instructions  | In-place      | Misc                |
-|----------------------|---------------|---------------------|
-| `BINARY_POWER`       | `INPLACE_ADD` | `RETURN_VALUE`      |
-| `BINARY_MULTIPLY`    |               | `LOAD_CONST`        |
-| `BINARY_FLOOR_DIVIDE`|               | `LOAD_FAST`         |
-| `BINARY_TRUE_DIVIDE` |               | `STORE_FAST`        |
-| `BINARY_MODULO`      |               | `POP_JUMP_IF_FALSE` |
-| `BINARY_ADD`         |               | `JUMP_ABSOLUTE`     |
-| `BINARY_SUBTRACT`    |               | `BREAK_LOOP`        |
-| `BINARY_SUBSCR`      |               | `SETUP_LOOP`        |
-| `BINARY_LSHIFT`      |               |                     |
-| `BINARY_RSHIFT`      |               |                     |
-| `BINARY_AND`         |               |                     |
-| `BINARY_XOR`         |               |                     |
-| `BINARY_OR`          |               |                     |
+| Binary Instructions  | In-place              | Misc                |
+|----------------------|-----------------------|---------------------|
+| `BINARY_POWER`       | `INPLACE_POWER`       | `RETURN_VALUE`      |
+| `BINARY_MULTIPLY`    | `INPLACE_MULTIPLY`    | `LOAD_CONST`        |
+| `BINARY_FLOOR_DIVIDE`| `INPLACE_FLOOR_DIVIDE`| `LOAD_FAST`         |
+| `BINARY_TRUE_DIVIDE` | `INPLACE_TRUE_DIVIDE` | `STORE_FAST`        |
+| `BINARY_MODULO`      | `INPLACE_MODULO`      | `POP_JUMP_IF_FALSE` |
+| `BINARY_ADD`         | `INPLACE_ADD`         | `JUMP_ABSOLUTE`     |
+| `BINARY_SUBTRACT`    | `INPLACE_SUBTRACT`    | `BREAK_LOOP`        |
+| `BINARY_SUBSCR`      | `INPLACE_LSHIFT`      | `SETUP_LOOP`        |
+| `BINARY_LSHIFT`      | `INPLACE_RSHIFT`      |                     |
+| `BINARY_RSHIFT`      | `INPLACE_AND`         |                     |
+| `BINARY_AND`         | `INPLACE_XOR`         |                     |
+| `BINARY_XOR`         | `INPLACE_OR`          |                     |
+| `BINARY_OR`          |                       |                     |
 
 
 Unsupported Instructions:
@@ -40,28 +40,17 @@ Unsupported Instructions:
 - 'UNARY_INVERT'
 - 'BINARY_MATRIX_MULTIPLY'
 - 'INPLACE_MATRIX_MULTIPLY'
-- 'INPLACE_FLOOR_DIVIDE'
-- 'INPLACE_TRUE_DIVIDE'
 - 'GET_AITER'
 - 'GET_ANEXT'
 - 'BEFORE_ASYNC_WITH'
-- 'INPLACE_SUBTRACT'
-- 'INPLACE_MULTIPLY'
-- 'INPLACE_MODULO'
 - 'STORE_SUBSCR'
 - 'DELETE_SUBSCR'
-- 'INPLACE_POWER'
 - 'GET_ITER'
 - 'GET_YIELD_FROM_ITER'
 - 'PRINT_EXPR'
 - 'LOAD_BUILD_CLASS'
 - 'YIELD_FROM'
 - 'GET_AWAITABLE'
-- 'INPLACE_LSHIFT'
-- 'INPLACE_RSHIFT'
-- 'INPLACE_AND'
-- 'INPLACE_XOR'
-- 'INPLACE_OR'
 - 'WITH_CLEANUP_START'
 - 'WITH_CLEANUP_FINISH'
 - 'IMPORT_STAR'
