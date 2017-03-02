@@ -9,18 +9,23 @@ To execute tests: `./run_tests.sh`
 https://docs.python.org/3.6/library/dis.html
 
 Supported Instructions:
-- RETURN_VALUE
-- LOAD_CONST
-- LOAD_FAST
-- STORE_FAST
-- BINARY_ADD
-- BINARY_SUBTRACT
-- BINARY_MULTIPLY
-- POP_JUMP_IF_FALSE
-- JUMP_ABSOLUTE
-- BREAK_LOOP
-- SETUP_LOOP
-- INPLACE_ADD
+
+| Binary Instructions  | In-place      | Misc                |
+|----------------------|---------------|---------------------|
+| `BINARY_POWER`       | `INPLACE_ADD` | `RETURN_VALUE`      |
+| `BINARY_MULTIPLY`    |               | `LOAD_CONST`        |
+| `BINARY_FLOOR_DIVIDE`|               | `LOAD_FAST`         |
+| `BINARY_TRUE_DIVIDE` |               | `STORE_FAST`        |
+| `BINARY_MODULO`      |               | `POP_JUMP_IF_FALSE` |
+| `BINARY_ADD`         |               | `JUMP_ABSOLUTE`     |
+| `BINARY_SUBTRACT`    |               | `BREAK_LOOP`        |
+| `BINARY_SUBSCR`      |               | `SETUP_LOOP`        |
+| `BINARY_LSHIFT`      |               |                     |
+| `BINARY_RSHIFT`      |               |                     |
+| `BINARY_AND`         |               |                     |
+| `BINARY_XOR`         |               |                     |
+| `BINARY_OR`          |               |                     |
+
 
 Unsupported Instructions:
 - 'POP_TOP'
@@ -35,11 +40,6 @@ Unsupported Instructions:
 - 'UNARY_INVERT'
 - 'BINARY_MATRIX_MULTIPLY'
 - 'INPLACE_MATRIX_MULTIPLY'
-- 'BINARY_POWER'
-- 'BINARY_MODULO'
-- 'BINARY_SUBSCR'
-- 'BINARY_FLOOR_DIVIDE'
-- 'BINARY_TRUE_DIVIDE'
 - 'INPLACE_FLOOR_DIVIDE'
 - 'INPLACE_TRUE_DIVIDE'
 - 'GET_AITER'
@@ -50,11 +50,6 @@ Unsupported Instructions:
 - 'INPLACE_MODULO'
 - 'STORE_SUBSCR'
 - 'DELETE_SUBSCR'
-- 'BINARY_LSHIFT'
-- 'BINARY_RSHIFT'
-- 'BINARY_AND'
-- 'BINARY_XOR'
-- 'BINARY_OR'
 - 'INPLACE_POWER'
 - 'GET_ITER'
 - 'GET_YIELD_FROM_ITER'

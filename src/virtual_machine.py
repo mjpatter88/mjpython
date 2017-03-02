@@ -17,6 +17,22 @@ CMP_OPS = [
     lambda x, y: issubclass(x, y)
 ]
 
+BIN_OPS = {
+    "BINARY_ADD": operator.add,
+    "BINARY_SUBTRACT": operator.sub,
+    "BINARY_MULTIPLY": operator.mul,
+    "BINARY_POWER": operator.pow,
+    "BINARY_FLOOR_DIVIDE": operator.floordiv,
+    "BINARY_TRUE_DIVIDE": operator.truediv,
+    "BINARY_MODULO": operator.mod,
+    "BINARY_SUBSCR": operator.getitem,
+    "BINARY_LSHIFT": operator.lshift,
+    "BINARY_RSHIFT": operator.rshift,
+    "BINARY_AND": operator.and_,
+    "BINARY_XOR": operator.xor,
+    "BINARY_OR": operator.or_
+}
+
 class VirtualMachineError(Exception):
     pass
 
@@ -38,74 +54,68 @@ class VirtualMachine():
     def run_frame(self, frame):
         control_code = None
         while not control_code:
-            instr, args = frame.get_next_instr()
-            print(instr, args)
-            func = getattr(self, "instr_{}".format(instr), None)
+            instr, arg = frame.get_next_instr()
+            print(instr, arg)
+            func, arg = self.get_func_and_arg(instr, arg)
             if func:
-                if args:
-                    control_code = func(args)
-                else:
-                    control_code = func()
+                control_code = func(arg)
             else:
                 control_code = "UNSUPPORTED_INSTRUCTION"
         return control_code
 
-    ############################################################################
-    def instr_LOAD_CONST(self, args):
-        self.current_frame.stack.append(args[0])
+    def get_func_and_arg(self, instr, arg):
+        if instr.startswith("BINARY"):
+            func = self.binary_operation
+            arg = BIN_OPS[instr]
+            return func, arg
+        else:
+            return getattr(self, "instr_{}".format(instr), None), arg
 
-    def instr_RETURN_VALUE(self):
+
+    ############################################################################
+    def instr_LOAD_CONST(self, arg):
+        self.current_frame.stack.append(arg)
+
+    def instr_RETURN_VALUE(self, arg):
         self.return_value = self.current_frame.stack.pop()
         return "RETURN"
 
-    def instr_STORE_FAST(self, args):
-        key = args[0]
+    def instr_STORE_FAST(self, arg):
         val = self.current_frame.stack.pop()
-        self.current_frame.locals[key] = val
+        self.current_frame.locals[arg] = val
 
-    def instr_LOAD_FAST(self, args):
-        key = args[0]
-        val = self.current_frame.locals[key]
+    def instr_LOAD_FAST(self, arg):
+        val = self.current_frame.locals[arg]
         self.current_frame.stack.append(val)
-
-    def instr_BINARY_ADD(self):
+    def instr_INPLACE_ADD(self, arg):
         b = self.current_frame.stack.pop()
         a = self.current_frame.stack.pop()
         self.current_frame.stack.append(a+b)
 
-    def instr_BINARY_SUBTRACT(self):
-        b = self.current_frame.stack.pop()
-        a = self.current_frame.stack.pop()
-        self.current_frame.stack.append(a-b)
-
-    def instr_BINARY_MULTIPLY(self):
-        b = self.current_frame.stack.pop()
-        a = self.current_frame.stack.pop()
-        self.current_frame.stack.append(a*b)
-
-    def instr_INPLACE_ADD(self,):
-        b = self.current_frame.stack.pop()
-        a = self.current_frame.stack.pop()
-        self.current_frame.stack.append(a+b)
-
-    def instr_COMPARE_OP(self, args):
-        func = CMP_OPS[args[0]]
+    def instr_COMPARE_OP(self, arg):
+        func = CMP_OPS[arg]
         b = self.current_frame.stack.pop()
         a = self.current_frame.stack.pop()
         self.current_frame.stack.append(func(a, b))
 
-    def instr_POP_JUMP_IF_FALSE(self, args):
+    def instr_POP_JUMP_IF_FALSE(self, arg):
         if not self.current_frame.stack.pop():
-            self.current_frame.instr_pointer = args[0]
+            self.current_frame.instr_pointer = arg
 
-    def instr_SETUP_LOOP(self, args):
-        self.current_frame.end_of_loop = args[0] + self.current_frame.instr_pointer
+    def instr_SETUP_LOOP(self, arg):
+        self.current_frame.end_of_loop = arg + self.current_frame.instr_pointer
 
-    def instr_BREAK_LOOP(self):
+    def instr_BREAK_LOOP(self, arg):
         self.current_frame.instr_pointer = self.current_frame.end_of_loop
 
-    def instr_POP_BLOCK(self):
+    def instr_POP_BLOCK(self, arg):
         pass
 
-    def instr_JUMP_ABSOLUTE(self, args):
-        self.current_frame.instr_pointer = args[0]
+    def instr_JUMP_ABSOLUTE(self, arg):
+        self.current_frame.instr_pointer = arg
+
+    # The following method handles all binary operations
+    def binary_operation(self, func):
+        b = self.current_frame.stack.pop()
+        a = self.current_frame.stack.pop()
+        self.current_frame.stack.append(func(a, b))

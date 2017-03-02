@@ -11,25 +11,13 @@ class Frame():
         self.locals[name] = value
 
     def get_next_instr(self):
-        byte_code = self.code.co_code[self.instr_pointer]
-        self.instr_pointer += 1
-        if byte_code in dis.hasconst:
-            index = self.code.co_code[self.instr_pointer]
-            args = [self.code.co_consts[index]]
-        elif byte_code in dis.haslocal:
-            index = self.code.co_code[self.instr_pointer]
-            args = [self.code.co_varnames[index]]
-        elif byte_code in dis.hascompare:
-            index = self.code.co_code[self.instr_pointer]
-            args = [index]
-        elif byte_code in dis.hasjabs:
-            index = self.code.co_code[self.instr_pointer]
-            args = [index]
-        elif byte_code in dis.hasjrel:
-            args = [self.code.co_code[self.instr_pointer]]
-        else:
-            args = []
         # Python 3.6 moved to a constant instruction size of 2 bytes.
         # https://docs.python.org/3/whatsnew/3.6.html#cpython-bytecode-changes
-        self.instr_pointer += 1
-        return dis.opname[byte_code], args
+        byte_code = self.code.co_code[self.instr_pointer]
+        arg = self.code.co_code[self.instr_pointer + 1]
+        self.instr_pointer += 2
+        if byte_code in dis.hasconst:
+            arg = self.code.co_consts[arg]
+        elif byte_code in dis.haslocal:
+            arg = self.code.co_varnames[arg]
+        return dis.opname[byte_code], arg

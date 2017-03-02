@@ -13,5 +13,5 @@ class TestVirtualMachineBinaryOperations:
         frame = MagicMock()
         frame.stack = [a, b]
         self.vm.push_frame(frame)
-        self.vm.instr_INPLACE_ADD()
+        self.vm.instr_INPLACE_ADD(0)
         assert frame.stack == [a+b]
