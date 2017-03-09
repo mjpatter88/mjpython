@@ -113,6 +113,7 @@ class TestByteCodeObjectExecution():
             x = 0
             y = 0
             while x < 10:
+                y = 0
                 while y < 11:
                     a += 1
                     y += 1

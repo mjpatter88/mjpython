@@ -14,6 +14,11 @@ class TestFrame:
         frame = Frame(code)
         assert frame.stack == []
 
+    def test_init__sets_blocks_empty_list(self):
+        code = MagicMock()
+        frame = Frame(code)
+        assert frame.blocks == []
+
     def test_init__sets_instr_pointer_to_0(self):
         code = MagicMock()
         frame = Frame(code)

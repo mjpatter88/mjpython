@@ -1,4 +1,5 @@
 from frame import Frame
+from block import Block
 
 import operator
 
@@ -100,13 +101,16 @@ class VirtualMachine():
             self.current_frame.instr_pointer = arg
 
     def instr_SETUP_LOOP(self, arg):
-        self.current_frame.end_of_loop = arg + self.current_frame.instr_pointer
+        start = self.current_frame.instr_pointer
+        end = self.current_frame.instr_pointer + arg
+        self.current_frame.blocks.append(Block(start, end))
 
     def instr_BREAK_LOOP(self, arg):
-        self.current_frame.instr_pointer = self.current_frame.end_of_loop
+        end = self.current_frame.blocks[-1].end
+        self.current_frame.instr_pointer = end
 
     def instr_POP_BLOCK(self, arg):
-        pass
+        self.current_frame.blocks.pop()
 
     def instr_JUMP_ABSOLUTE(self, arg):
         self.current_frame.instr_pointer = arg
