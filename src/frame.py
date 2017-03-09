@@ -6,6 +6,7 @@ class Frame():
         self.stack = []
         self.instr_pointer = 0
         self.locals = {}
+        self.blocks = []
 
     def set_local(self, name, value):
         self.locals[name] = value
