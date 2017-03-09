@@ -20,7 +20,7 @@ Supported Instructions:
 | `BINARY_ADD`         | `INPLACE_ADD`         | `JUMP_ABSOLUTE`     |
 | `BINARY_SUBTRACT`    | `INPLACE_SUBTRACT`    | `BREAK_LOOP`        |
 | `BINARY_SUBSCR`      | `INPLACE_LSHIFT`      | `SETUP_LOOP`        |
-| `BINARY_LSHIFT`      | `INPLACE_RSHIFT`      |                     |
+| `BINARY_LSHIFT`      | `INPLACE_RSHIFT`      | `POP_BLOCK`         |
 | `BINARY_RSHIFT`      | `INPLACE_AND`         |                     |
 | `BINARY_AND`         | `INPLACE_XOR`         |                     |
 | `BINARY_XOR`         | `INPLACE_OR`          |                     |
@@ -56,7 +56,6 @@ Unsupported Instructions:
 - 'IMPORT_STAR'
 - 'SETUP_ANNOTATIONS'
 - 'YIELD_VALUE'
-- 'POP_BLOCK'
 - 'END_FINALLY'
 - 'POP_EXCEPT'
 - 'STORE_NAME'
