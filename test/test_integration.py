@@ -106,3 +106,16 @@ class TestByteCodeObjectExecution():
                 x += 10
             return x
         assert self.vm.run_code(test_func.__code__) == 10
+
+    def test_nested_while_loop(self):
+        def test_func():
+            a = 0
+            x = 0
+            y = 0
+            while x < 10:
+                while y < 11:
+                    a += 1
+                    y += 1
+                x += 1
+            return a
+        assert self.vm.run_code(test_func.__code__) == 110
