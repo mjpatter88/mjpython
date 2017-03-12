@@ -61,7 +61,7 @@ class VirtualMachine():
             if func:
                 control_code = func(arg)
             else:
-                control_code = "UNSUPPORTED_INSTRUCTION"
+                raise VirtualMachineError("Unsupported Instruction: " + instr)
         return control_code
 
     def get_func_and_arg(self, instr, arg):
