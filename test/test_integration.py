@@ -120,3 +120,8 @@ class TestByteCodeObjectExecution():
                 x += 1
             return a
         assert self.vm.run_code(test_func.__code__) == 110
+
+    def test_built_in_functions(self):
+        def test_func():
+            return abs(-5)
+        assert self.vm.run_code(test_func.__code__) == 5

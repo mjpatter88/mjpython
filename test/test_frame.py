@@ -29,6 +29,11 @@ class TestFrame:
         frame = Frame(code)
         assert frame.locals == {}
 
+    def test_init__sets_built_ins_to_built_ins(self):
+        code = MagicMock()
+        frame = Frame(code)
+        assert frame.built_ins == __builtins__
+
     def test_set_local_adds_name_and_value_in_locals(self):
         frame = Frame(MagicMock())
         name = "foo"
@@ -87,3 +92,11 @@ class TestFrame:
         code.co_code = [dis.opmap[instr], 500]
         frame = Frame(code)
         assert frame.get_next_instr()[1] == 500
+
+    def test_get_next_instr__returns_named_arg(self):
+        code = MagicMock()
+        code.co_names = ['foo']
+        instr = "LOAD_NAME"
+        code.co_code = [dis.opmap[instr], 0]
+        frame = Frame(code)
+        assert frame.get_next_instr()[1] == 'foo'

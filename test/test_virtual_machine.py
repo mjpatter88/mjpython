@@ -94,6 +94,22 @@ class TestVirtualMachine:
         self.vm.instr_LOAD_CONST(arg)
         assert self.frame.stack[0] == arg
 
+    def test_instr_LOAD_GLOBAL__loads_from_builtins_to_current_frames_stack(self):
+        arg = 'foo'
+        self.frame.stack = []
+        self.frame.built_ins = {arg: 12}
+        self.vm.push_frame(self.frame)
+        self.vm.instr_LOAD_GLOBAL(arg)
+        assert self.frame.stack == [12]
+
+    def test_instr_LOAD_GLOBAL__raises_exception_if_name_not_found(self):
+        arg = 'foo'
+        self.frame.stack = []
+        self.frame.built_ins = {}
+        self.vm.push_frame(self.frame)
+        with pytest.raises(VirtualMachineError):
+            self.vm.instr_LOAD_GLOBAL(arg)
+
     def test_instr_STORE_FAST__removes_top_off_current_frames_stack(self):
         self.frame.stack = [7]
         self.vm.push_frame(self.frame)

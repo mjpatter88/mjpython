@@ -7,6 +7,7 @@ class Frame():
         self.instr_pointer = 0
         self.locals = {}
         self.blocks = []
+        self.built_ins = __builtins__
 
     def set_local(self, name, value):
         self.locals[name] = value
@@ -21,4 +22,6 @@ class Frame():
             arg = self.code.co_consts[arg]
         elif byte_code in dis.haslocal:
             arg = self.code.co_varnames[arg]
+        elif byte_code in dis.hasname:
+            arg = self.code.co_names[arg]
         return dis.opname[byte_code], arg

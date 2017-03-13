@@ -90,6 +90,13 @@ class VirtualMachine():
         val = self.current_frame.locals[arg]
         self.current_frame.stack.append(val)
 
+    def instr_LOAD_GLOBAL(self, arg):
+        if arg in self.current_frame.built_ins:
+            val = self.current_frame.built_ins[arg]
+        else:
+            raise VirtualMachineError("instr_LOAD_GLOBAL name not found: " + arg)
+        self.current_frame.stack.append(val)
+
     def instr_COMPARE_OP(self, arg):
         func = CMP_OPS[arg]
         b = self.current_frame.stack.pop()
