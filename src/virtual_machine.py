@@ -122,6 +122,15 @@ class VirtualMachine():
     def instr_JUMP_ABSOLUTE(self, arg):
         self.current_frame.instr_pointer = arg
 
+    def instr_CALL_FUNCTION(self, arg):
+        num_pos_args = arg
+        pos_args = []
+        for i in range(arg):
+            pos_args.append(self.current_frame.stack.pop())
+
+        func = self.current_frame.stack.pop()
+        self.current_frame.stack.append(func(*pos_args))
+
     # The following method handles all binary operations.
     # It also handles all inplace operations, as they are basically just
     # a special case of the binary operations
