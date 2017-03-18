@@ -4,6 +4,8 @@
 
 Michael's Python - A virtual machine for Python 3.6 bytecode
 
+To execute python script (from base directory): `PYTHONPATH=$(pwd)/src python mjpython.py path_to_script.py`
+
 To execute tests: `./run_tests.sh`
 
 https://docs.python.org/3.6/library/dis.html
@@ -21,14 +23,13 @@ Supported Instructions:
 | `BINARY_SUBTRACT`    | `INPLACE_SUBTRACT`    | `BREAK_LOOP`        |
 | `BINARY_SUBSCR`      | `INPLACE_LSHIFT`      | `SETUP_LOOP`        |
 | `BINARY_LSHIFT`      | `INPLACE_RSHIFT`      | `CALL_FUNCTION`     |
-| `BINARY_RSHIFT`      | `INPLACE_AND`         |                     |
-| `BINARY_AND`         | `INPLACE_XOR`         |                     |
+| `BINARY_RSHIFT`      | `INPLACE_AND`         | `POP_TOP`           |
+| `BINARY_AND`         | `INPLACE_XOR`         | `LOAD_NAME`         |
 | `BINARY_XOR`         | `INPLACE_OR`          |                     |
 | `BINARY_OR`          |                       |                     |
 
 
 Unsupported Instructions:
-- 'POP_TOP'
 - 'ROT_TWO'
 - 'ROT_THREE'
 - 'DUP_TOP'
@@ -67,7 +68,6 @@ Unsupported Instructions:
 - 'DELETE_ATTR'
 - 'STORE_GLOBAL'
 - 'DELETE_GLOBAL'
-- 'LOAD_NAME'
 - 'BUILD_TUPLE'
 - 'BUILD_LIST'
 - 'BUILD_SET'

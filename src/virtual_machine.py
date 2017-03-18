@@ -56,7 +56,7 @@ class VirtualMachine():
         control_code = None
         while not control_code:
             instr, arg = frame.get_next_instr()
-            print(instr, arg)
+            # print(instr, arg)
             func, arg = self.get_func_and_arg(instr, arg)
             if func:
                 control_code = func(arg)
@@ -90,6 +90,13 @@ class VirtualMachine():
         val = self.current_frame.locals[arg]
         self.current_frame.stack.append(val)
 
+    def instr_LOAD_NAME(self, arg):
+        if arg in self.current_frame.built_ins:
+            val = self.current_frame.built_ins[arg]
+        else:
+            raise VirtualMachineError("instr_LOAD_NAME name not found: " + arg)
+        self.current_frame.stack.append(val)
+
     def instr_LOAD_GLOBAL(self, arg):
         if arg in self.current_frame.built_ins:
             val = self.current_frame.built_ins[arg]
@@ -118,6 +125,9 @@ class VirtualMachine():
 
     def instr_POP_BLOCK(self, arg):
         self.current_frame.blocks.pop()
+
+    def instr_POP_TOP(self, arg):
+        self.current_frame.stack.pop()
 
     def instr_JUMP_ABSOLUTE(self, arg):
         self.current_frame.instr_pointer = arg

@@ -110,6 +110,22 @@ class TestVirtualMachine:
         with pytest.raises(VirtualMachineError):
             self.vm.instr_LOAD_GLOBAL(arg)
 
+    def test_instr_LOAD_NAME__loads_from_builtins_to_current_frames_stack(self):
+        arg = 'foo'
+        self.frame.stack = []
+        self.frame.built_ins = {arg: 12}
+        self.vm.push_frame(self.frame)
+        self.vm.instr_LOAD_NAME(arg)
+        assert self.frame.stack == [12]
+
+    def test_instr_LOAD_NAME__raises_exception_if_name_not_found(self):
+        arg = 'foo'
+        self.frame.stack = []
+        self.frame.built_ins = {}
+        self.vm.push_frame(self.frame)
+        with pytest.raises(VirtualMachineError):
+            self.vm.instr_LOAD_NAME(arg)
+
     def test_instr_STORE_FAST__removes_top_off_current_frames_stack(self):
         self.frame.stack = [7]
         self.vm.push_frame(self.frame)
@@ -202,3 +218,9 @@ class TestVirtualMachine:
         self.frame.stack = [ret]
         self.vm.push_frame(self.frame)
         assert self.vm.instr_RETURN_VALUE(0) == "RETURN"
+
+    def test_inst_POP_TOP__removes_the_current_frames_top_of_stack(self):
+        self.frame.stack = ["foo"]
+        self.vm.push_frame(self.frame)
+        self.vm.instr_POP_TOP(0)
+        assert self.frame.stack == []
