@@ -56,12 +56,12 @@ class VirtualMachine():
         control_code = None
         while not control_code:
             instr, arg = frame.get_next_instr()
-            print(instr, arg)
+            # print(instr, arg)
             func, arg = self.get_func_and_arg(instr, arg)
             if func:
                 control_code = func(arg)
             else:
-                control_code = "UNSUPPORTED_INSTRUCTION"
+                raise VirtualMachineError("Unsupported Instruction: " + instr)
         return control_code
 
     def get_func_and_arg(self, instr, arg):
@@ -90,6 +90,20 @@ class VirtualMachine():
         val = self.current_frame.locals[arg]
         self.current_frame.stack.append(val)
 
+    def instr_LOAD_NAME(self, arg):
+        if arg in self.current_frame.built_ins:
+            val = self.current_frame.built_ins[arg]
+        else:
+            raise VirtualMachineError("instr_LOAD_NAME name not found: " + arg)
+        self.current_frame.stack.append(val)
+
+    def instr_LOAD_GLOBAL(self, arg):
+        if arg in self.current_frame.built_ins:
+            val = self.current_frame.built_ins[arg]
+        else:
+            raise VirtualMachineError("instr_LOAD_GLOBAL name not found: " + arg)
+        self.current_frame.stack.append(val)
+
     def instr_COMPARE_OP(self, arg):
         func = CMP_OPS[arg]
         b = self.current_frame.stack.pop()
@@ -112,8 +126,20 @@ class VirtualMachine():
     def instr_POP_BLOCK(self, arg):
         self.current_frame.blocks.pop()
 
+    def instr_POP_TOP(self, arg):
+        self.current_frame.stack.pop()
+
     def instr_JUMP_ABSOLUTE(self, arg):
         self.current_frame.instr_pointer = arg
+
+    def instr_CALL_FUNCTION(self, arg):
+        num_pos_args = arg
+        pos_args = []
+        for i in range(arg):
+            pos_args.append(self.current_frame.stack.pop())
+
+        func = self.current_frame.stack.pop()
+        self.current_frame.stack.append(func(*pos_args))
 
     # The following method handles all binary operations.
     # It also handles all inplace operations, as they are basically just

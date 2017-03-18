@@ -1,8 +1,9 @@
-from virtual_machine import VirtualMachine, BIN_OPS
+from virtual_machine import VirtualMachine, BIN_OPS, VirtualMachineError
 from frame import Frame
 from block import Block
 
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
+import pytest
 
 class TestVirtualMachine:
     def setup_method(self):
@@ -42,9 +43,13 @@ class TestVirtualMachine:
         self.vm.run_code(code)
         assert self.vm.frames[0].code == code
 
-    def test_run_code__returns_the_result_of_execution(self):
+    @patch('virtual_machine.Frame')
+    def test_run_code__returns_the_result_of_execution(self, frame):
         code = MagicMock()
-        self.vm.return_value = 10
+        f = MagicMock()
+        f.get_next_instr.return_value = ("RETURN_VALUE", 0)
+        f.stack = [10]
+        frame.return_value = f
         assert self.vm.run_code(code) == 10
 
     def test_run_frame__stops_execution_at_return(self):
@@ -54,6 +59,13 @@ class TestVirtualMachine:
         self.vm.push_frame(self.frame)
         self.vm.run_frame(self.frame)
         assert self.vm.return_value == 10
+
+    def test_run_frame__raises_unsupported_instr_ex_when_instr_not_recognized(self):
+        self.frame.get_next_instr.return_value = ("FAKE_INSTR", 0)
+        self.frame.stack = []
+        self.vm.push_frame(self.frame)
+        with pytest.raises(VirtualMachineError):
+            self.vm.run_frame(self.frame)
 
     def test_get_func__returns_instr_function(self):
         instr = "LOAD_CONST"
@@ -81,6 +93,38 @@ class TestVirtualMachine:
         self.vm.push_frame(self.frame)
         self.vm.instr_LOAD_CONST(arg)
         assert self.frame.stack[0] == arg
+
+    def test_instr_LOAD_GLOBAL__loads_from_builtins_to_current_frames_stack(self):
+        arg = 'foo'
+        self.frame.stack = []
+        self.frame.built_ins = {arg: 12}
+        self.vm.push_frame(self.frame)
+        self.vm.instr_LOAD_GLOBAL(arg)
+        assert self.frame.stack == [12]
+
+    def test_instr_LOAD_GLOBAL__raises_exception_if_name_not_found(self):
+        arg = 'foo'
+        self.frame.stack = []
+        self.frame.built_ins = {}
+        self.vm.push_frame(self.frame)
+        with pytest.raises(VirtualMachineError):
+            self.vm.instr_LOAD_GLOBAL(arg)
+
+    def test_instr_LOAD_NAME__loads_from_builtins_to_current_frames_stack(self):
+        arg = 'foo'
+        self.frame.stack = []
+        self.frame.built_ins = {arg: 12}
+        self.vm.push_frame(self.frame)
+        self.vm.instr_LOAD_NAME(arg)
+        assert self.frame.stack == [12]
+
+    def test_instr_LOAD_NAME__raises_exception_if_name_not_found(self):
+        arg = 'foo'
+        self.frame.stack = []
+        self.frame.built_ins = {}
+        self.vm.push_frame(self.frame)
+        with pytest.raises(VirtualMachineError):
+            self.vm.instr_LOAD_NAME(arg)
 
     def test_instr_STORE_FAST__removes_top_off_current_frames_stack(self):
         self.frame.stack = [7]
@@ -174,3 +218,9 @@ class TestVirtualMachine:
         self.frame.stack = [ret]
         self.vm.push_frame(self.frame)
         assert self.vm.instr_RETURN_VALUE(0) == "RETURN"
+
+    def test_inst_POP_TOP__removes_the_current_frames_top_of_stack(self):
+        self.frame.stack = ["foo"]
+        self.vm.push_frame(self.frame)
+        self.vm.instr_POP_TOP(0)
+        assert self.frame.stack == []
