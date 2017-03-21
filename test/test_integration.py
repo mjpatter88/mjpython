@@ -125,3 +125,25 @@ class TestByteCodeObjectExecution():
         def test_func():
             return abs(-5)
         assert self.vm.run_code(test_func.__code__) == 5
+
+    def test_make_and_call_function(self):
+        def test_func():
+            def test_inner_func():
+                return 7
+            return test_inner_func()
+        assert self.vm.run_code(test_func.__code__) == 7
+
+    def test_make_and_call_function_pos_args(self):
+        pass
+
+    def test_make_and_call_function_keyword_args(self):
+        pass
+
+    def test_make_and_call_function_closure(self):
+        pass
+#        def test_func():
+#            a = 3
+#            def test_inner_func():
+#                return 7 + a
+#            return test_inner_func()
+#        assert self.vm.run_code(test_func.__code__) == 10

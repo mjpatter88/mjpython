@@ -13,4 +13,3 @@ class TestPrinting:
         my_output = subprocess.check_output(["python", "mjpython.py", test_target])
 
         assert my_output == output
-

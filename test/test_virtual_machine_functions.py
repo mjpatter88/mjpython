@@ -2,10 +2,10 @@ from virtual_machine import VirtualMachine, BIN_OPS, VirtualMachineError
 from frame import Frame
 from block import Block
 
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, patch, ANY
 import pytest
 
-class TestVirtualMachine:
+class TestVirtualMachineFunctions:
     def setup_method(self):
         self.vm = VirtualMachine()
         self.frame = MagicMock()
@@ -44,3 +44,28 @@ class TestVirtualMachine:
         self.vm.push_frame(self.frame)
         self.vm.instr_CALL_FUNCTION(arg)
         func.assert_called_with(1, 2, 3)
+
+    @patch('virtual_machine.FunctionType')
+    def test_instr_MAKE_FUNCTION__creates_new_function_and_adds_it_to_TOS(self, make_func):
+        func = MagicMock()
+        make_func.return_value = func
+        self.frame.stack = ["foo_code", "foo"]
+        self.vm.push_frame(self.frame)
+        self.vm.instr_MAKE_FUNCTION(0)
+        assert self.frame.stack == [func]
+
+    @patch('virtual_machine.FunctionType')
+    def test_instr_MAKE_FUNCTION__creates_new_function_with_code_from_TOS_1(self, make_func):
+        code = MagicMock()
+        self.frame.stack = [code, "foo"]
+        self.vm.push_frame(self.frame)
+        self.vm.instr_MAKE_FUNCTION(0)
+        make_func.assert_called_with(code, ANY, name=ANY)
+
+    @patch('virtual_machine.FunctionType')
+    def test_instr_MAKE_FUNCTION__creates_new_function_with_name_from_TOS(self, make_func):
+        name = "func_name"
+        self.frame.stack = ["foo", name]
+        self.vm.push_frame(self.frame)
+        self.vm.instr_MAKE_FUNCTION(0)
+        make_func.assert_called_with(ANY, ANY, name=name)

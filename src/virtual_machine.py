@@ -1,6 +1,7 @@
 from frame import Frame
 from block import Block
 
+from types import FunctionType
 import operator
 
 # Comparison operators are defined in cpython/Include/object.h
@@ -56,11 +57,12 @@ class VirtualMachine():
         control_code = None
         while not control_code:
             instr, arg = frame.get_next_instr()
-            # print(instr, arg)
             func, arg = self.get_func_and_arg(instr, arg)
             if func:
                 control_code = func(arg)
             else:
+                print(instr, arg)
+                print(self.current_frame.stack)
                 raise VirtualMachineError("Unsupported Instruction: " + instr)
         return control_code
 
@@ -131,6 +133,12 @@ class VirtualMachine():
 
     def instr_JUMP_ABSOLUTE(self, arg):
         self.current_frame.instr_pointer = arg
+
+    def instr_MAKE_FUNCTION(self, arg):
+        name = self.current_frame.stack.pop()
+        code = self.current_frame.stack.pop()
+        func = FunctionType(code, {}, name=name)
+        self.current_frame.stack.append(func)
 
     def instr_CALL_FUNCTION(self, arg):
         num_pos_args = arg
