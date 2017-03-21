@@ -23,9 +23,9 @@ Supported Instructions:
 | `BINARY_SUBTRACT`    | `INPLACE_SUBTRACT`    | `BREAK_LOOP`        |
 | `BINARY_SUBSCR`      | `INPLACE_LSHIFT`      | `SETUP_LOOP`        |
 | `BINARY_LSHIFT`      | `INPLACE_RSHIFT`      | `CALL_FUNCTION`     |
-| `BINARY_RSHIFT`      | `INPLACE_AND`         | `POP_TOP`           |
+| `BINARY_RSHIFT`      | `INPLACE_AND`         | `CALL_FUNCTION_KW`  |
 | `BINARY_AND`         | `INPLACE_XOR`         | `LOAD_NAME`         |
-| `BINARY_XOR`         | `INPLACE_OR`          |                     |
+| `BINARY_XOR`         | `INPLACE_OR`          | `POP_TOP`           |
 | `BINARY_OR`          |                       |                     |
 
 
@@ -93,7 +93,6 @@ Unsupported Instructions:
 - 'LOAD_DEREF'
 - 'STORE_DEREF'
 - 'DELETE_DEREF'
-- 'CALL_FUNCTION_KW'
 - 'CALL_FUNCTION_EX'
 - 'SETUP_WITH'
 - 'LIST_APPEND'

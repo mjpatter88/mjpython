@@ -45,6 +45,21 @@ class TestVirtualMachineFunctions:
         self.vm.instr_CALL_FUNCTION(arg)
         func.assert_called_with(1, 2, 3)
 
+    def test_instr_CALL_FUNCTION_KW__passes_keyword_args(self):
+        func = MagicMock()
+        self.frame.stack = [func, 1, 2, 3, ('a', 'b', 'c')]
+        self.vm.push_frame(self.frame)
+        self.vm.instr_CALL_FUNCTION_KW(0)
+        func.assert_called_with(a=1, b=2, c=3)
+
+    def test_instr_CALL_FUNCTION_KW__passes_keyword_args_and_pos_args(self):
+        func = MagicMock()
+        arg = 4
+        self.frame.stack = [func, 0, 1, 2, 3, ('a', 'b', 'c')]
+        self.vm.push_frame(self.frame)
+        self.vm.instr_CALL_FUNCTION_KW(arg)
+        func.assert_called_with(0, a=1, b=2, c=3)
+
     @patch('virtual_machine.FunctionType')
     def test_instr_MAKE_FUNCTION__creates_new_function_and_adds_it_to_TOS(self, make_func):
         func = MagicMock()
