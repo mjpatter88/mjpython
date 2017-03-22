@@ -126,6 +126,11 @@ class TestByteCodeObjectExecution():
             return abs(-5)
         assert self.vm.run_code(test_func.__code__) == 5
 
+    def test_built_in_sum_function(self):
+        def test_func():
+            return sum((1,2,3,4))
+        assert self.vm.run_code(test_func.__code__) == 10
+
     def test_make_and_call_function(self):
         def test_func():
             def test_inner_func():
@@ -154,8 +159,22 @@ class TestByteCodeObjectExecution():
             return test_inner_func(14, 13, c=4, d=3)
         assert self.vm.run_code(test_func.__code__) == 20
 
-    def test_make_and_call_function_variadic_args(self):
-        pass
+    def test_make_and_call_function_with_var_args(self):
+        def test_func():
+            def test_inner_func(*args):
+                a = sum(args)
+                return a
+            return test_inner_func(1, 2, 3, 4)
+        assert self.vm.run_code(test_func.__code__) == 10
+
+    def test_make_and_call_function_with_var_args_and_var_kw_args(self):
+        def test_func():
+            def test_inner_func(*args, **kwargs):
+                a = sum(args)
+                a += kwargs['bonus']
+                return a
+            return test_inner_func(1, 2, 3, 4, bonus=10)
+        assert self.vm.run_code(test_func.__code__) == 20
 
     def test_make_and_call_function_keyword_args_defaul_values(self):
         pass

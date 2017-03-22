@@ -137,7 +137,8 @@ class VirtualMachine():
     def instr_MAKE_FUNCTION(self, arg):
         name = self.current_frame.stack.pop()
         code = self.current_frame.stack.pop()
-        func = FunctionType(code, {}, name=name)
+        # TODO: Replace with custom function creation/execution
+        func = FunctionType(code, self.current_frame.built_ins, name=name)
         self.current_frame.stack.append(func)
 
     def instr_CALL_FUNCTION(self, arg):

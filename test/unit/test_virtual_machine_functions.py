@@ -78,6 +78,15 @@ class TestVirtualMachineFunctions:
         make_func.assert_called_with(code, ANY, name=ANY)
 
     @patch('virtual_machine.FunctionType')
+    def test_instr_MAKE_FUNCTION__creates_new_function_with_builtins_from_current_frame(self, make_func):
+        built_ins = {"foo": "bar"}
+        self.frame.stack = ["foo", "foo"]
+        self.frame.built_ins = built_ins
+        self.vm.push_frame(self.frame)
+        self.vm.instr_MAKE_FUNCTION(0)
+        make_func.assert_called_with(ANY, built_ins, name=ANY)
+
+    @patch('virtual_machine.FunctionType')
     def test_instr_MAKE_FUNCTION__creates_new_function_with_name_from_TOS(self, make_func):
         name = "func_name"
         self.frame.stack = ["foo", name]
