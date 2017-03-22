@@ -141,10 +141,7 @@ class VirtualMachine():
         self.current_frame.stack.append(func)
 
     def instr_CALL_FUNCTION(self, arg):
-        pos_args = []
-        for i in range(arg):
-            pos_args.append(self.current_frame.stack.pop())
-
+        pos_args = self._parse_pos_args(arg)
         func = self.current_frame.stack.pop()
         self.current_frame.stack.append(func(*pos_args))
 
@@ -155,14 +152,18 @@ class VirtualMachine():
         for kw in reversed(kws):
             kw_args[kw] = self.current_frame.stack.pop()
 
-        # TODO: Refactor parsing of args into helper method
         num_pos_args = arg - num_kws
-        pos_args = []
-        for i in range(num_pos_args):
-            pos_args.append(self.current_frame.stack.pop())
+        pos_args = self._parse_pos_args(num_pos_args)
 
         func = self.current_frame.stack.pop()
         self.current_frame.stack.append(func(*pos_args, **kw_args))
+
+    def _parse_pos_args(self, num):
+        args = []
+        for i in range(num):
+            args.append(self.current_frame.stack.pop())
+        return args
+
 
     # The following method handles all binary operations.
     # It also handles all inplace operations, as they are basically just
