@@ -35,6 +35,9 @@ BIN_OPS = {
     "OR": operator.or_
 }
 
+HAS_POS_ARG_DEFS = 1
+HAS_KW_ARG_DEFS = 2
+
 class VirtualMachineError(Exception):
     pass
 
@@ -134,11 +137,28 @@ class VirtualMachine():
     def instr_JUMP_ABSOLUTE(self, arg):
         self.current_frame.instr_pointer = arg
 
+    def instr_BUILD_CONST_KEY_MAP(self, arg):
+        key_map = {}
+        keys = self.current_frame.stack.pop()
+        for key in reversed(keys):
+            key_map[key] = self.current_frame.stack.pop()
+        self.current_frame.stack.append(key_map)
+
     def instr_MAKE_FUNCTION(self, arg):
         name = self.current_frame.stack.pop()
         code = self.current_frame.stack.pop()
-        # TODO: Replace with custom function creation/execution
-        func = FunctionType(code, self.current_frame.built_ins, name=name)
+
+        arg_defs = None
+        if arg & HAS_POS_ARG_DEFS:
+            arg_defs = self.current_frame.stack.pop()
+
+        # TODO: Replace with custom function creation/execution, create new frame, etc.
+        func = FunctionType(code, self.current_frame.built_ins, name=name, argdefs=arg_defs)
+
+        if arg & HAS_KW_ARG_DEFS:
+            kw_arg_defs = self.current_frame.stack.pop()
+            # TODO: Fix this hack
+            func.__kwdefaults__ = kw_arg_defs
         self.current_frame.stack.append(func)
 
     def instr_CALL_FUNCTION(self, arg):

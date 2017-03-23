@@ -75,7 +75,7 @@ class TestVirtualMachineFunctions:
         self.frame.stack = [code, "foo"]
         self.vm.push_frame(self.frame)
         self.vm.instr_MAKE_FUNCTION(0)
-        make_func.assert_called_with(code, ANY, name=ANY)
+        make_func.assert_called_with(code, ANY, name=ANY, argdefs=ANY)
 
     @patch('virtual_machine.FunctionType')
     def test_instr_MAKE_FUNCTION__creates_new_function_with_builtins_from_current_frame(self, make_func):
@@ -84,7 +84,23 @@ class TestVirtualMachineFunctions:
         self.frame.built_ins = built_ins
         self.vm.push_frame(self.frame)
         self.vm.instr_MAKE_FUNCTION(0)
-        make_func.assert_called_with(ANY, built_ins, name=ANY)
+        make_func.assert_called_with(ANY, built_ins, name=ANY, argdefs=ANY)
+
+    @patch('virtual_machine.FunctionType')
+    def test_instr_MAKE_FUNCTION__creates_new_function_with_default_pos_arg_values(self, make_func):
+        def_args = (1, 4, 9)
+        self.frame.stack = [def_args, "foo", "foo"]
+        self.vm.push_frame(self.frame)
+        self.vm.instr_MAKE_FUNCTION(1)
+        make_func.assert_called_with(ANY, ANY, name=ANY, argdefs=def_args)
+
+    @patch('virtual_machine.FunctionType')
+    def test_instr_MAKE_FUNCTION__creates_new_function_with_default_keyword_arg_values(self, make_func):
+        def_args = {'a':1, 'b':4, 'c':9}
+        self.frame.stack = [def_args, "foo", "foo"]
+        self.vm.push_frame(self.frame)
+        self.vm.instr_MAKE_FUNCTION(2)
+        assert self.frame.stack[0].__kwdefaults__ == def_args
 
     @patch('virtual_machine.FunctionType')
     def test_instr_MAKE_FUNCTION__creates_new_function_with_name_from_TOS(self, make_func):
@@ -92,4 +108,4 @@ class TestVirtualMachineFunctions:
         self.frame.stack = ["foo", name]
         self.vm.push_frame(self.frame)
         self.vm.instr_MAKE_FUNCTION(0)
-        make_func.assert_called_with(ANY, ANY, name=name)
+        make_func.assert_called_with(ANY, ANY, name=name, argdefs=ANY)

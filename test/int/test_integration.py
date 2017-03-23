@@ -152,6 +152,13 @@ class TestByteCodeObjectExecution():
             return test_inner_func(a=10, b=15)
         assert self.vm.run_code(test_func.__code__) == 25
 
+    def test_make_and_call_function_keyword_args_reverse_order(self):
+        def test_func():
+            def test_inner_func(a=0, b=0):
+                return a - b
+            return test_inner_func(b=15, a=10)
+        assert self.vm.run_code(test_func.__code__) == -5
+
     def test_make_and_call_function_keyword_args_and_pos_args(self):
         def test_func():
             def test_inner_func(a, b, c=100, d=200):
@@ -176,8 +183,19 @@ class TestByteCodeObjectExecution():
             return test_inner_func(1, 2, 3, 4, bonus=10)
         assert self.vm.run_code(test_func.__code__) == 20
 
+    def test_make_and_call_function_pos_args_defaul_values(self):
+        def test_func():
+            def test_inner_func(a=4, b=7, c=1):
+                return a + b - c
+            return test_inner_func()
+        assert self.vm.run_code(test_func.__code__) == 10
+
     def test_make_and_call_function_keyword_args_defaul_values(self):
-        pass
+        def test_func():
+            def test_inner_func(a, *args, b=6, c=1):
+                return a + b - c
+            return test_inner_func(14, b=7)
+        assert self.vm.run_code(test_func.__code__) == 20
 
     def test_make_and_call_function_closure(self):
         pass

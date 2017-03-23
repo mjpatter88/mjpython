@@ -14,21 +14,21 @@ https://docs.python.org/3.6/library/dis.html
 
 Supported Instructions:
 
-| Binary Instructions  | In-place              | Misc                |
-|----------------------|-----------------------|---------------------|
-| `BINARY_POWER`       | `INPLACE_POWER`       | `RETURN_VALUE`      |
-| `BINARY_MULTIPLY`    | `INPLACE_MULTIPLY`    | `LOAD_CONST`        |
-| `BINARY_FLOOR_DIVIDE`| `INPLACE_FLOOR_DIVIDE`| `LOAD_FAST`         |
-| `BINARY_TRUE_DIVIDE` | `INPLACE_TRUE_DIVIDE` | `STORE_FAST`        |
-| `BINARY_MODULO`      | `INPLACE_MODULO`      | `POP_JUMP_IF_FALSE` |
-| `BINARY_ADD`         | `INPLACE_ADD`         | `JUMP_ABSOLUTE`     |
-| `BINARY_SUBTRACT`    | `INPLACE_SUBTRACT`    | `BREAK_LOOP`        |
-| `BINARY_SUBSCR`      | `INPLACE_LSHIFT`      | `SETUP_LOOP`        |
-| `BINARY_LSHIFT`      | `INPLACE_RSHIFT`      | `CALL_FUNCTION`     |
-| `BINARY_RSHIFT`      | `INPLACE_AND`         | `CALL_FUNCTION_KW`  |
-| `BINARY_AND`         | `INPLACE_XOR`         | `LOAD_NAME`         |
-| `BINARY_XOR`         | `INPLACE_OR`          | `POP_TOP`           |
-| `BINARY_OR`          |                       |                     |
+| Binary Instructions  | In-place              | Misc                | Build Data Structures |
+|----------------------|-----------------------|---------------------|-----------------------|
+| `BINARY_POWER`       | `INPLACE_POWER`       | `RETURN_VALUE`      | `BUILD_CONST_KEY_MAP` |
+| `BINARY_MULTIPLY`    | `INPLACE_MULTIPLY`    | `LOAD_CONST`        |                       |
+| `BINARY_FLOOR_DIVIDE`| `INPLACE_FLOOR_DIVIDE`| `LOAD_FAST`         |                       |
+| `BINARY_TRUE_DIVIDE` | `INPLACE_TRUE_DIVIDE` | `STORE_FAST`        |                       |
+| `BINARY_MODULO`      | `INPLACE_MODULO`      | `POP_JUMP_IF_FALSE` |                       |
+| `BINARY_ADD`         | `INPLACE_ADD`         | `JUMP_ABSOLUTE`     |                       |
+| `BINARY_SUBTRACT`    | `INPLACE_SUBTRACT`    | `BREAK_LOOP`        |                       |
+| `BINARY_SUBSCR`      | `INPLACE_LSHIFT`      | `SETUP_LOOP`        |                       |
+| `BINARY_LSHIFT`      | `INPLACE_RSHIFT`      | `CALL_FUNCTION`     |                       |
+| `BINARY_RSHIFT`      | `INPLACE_AND`         | `CALL_FUNCTION_KW`  |                       |
+| `BINARY_AND`         | `INPLACE_XOR`         | `LOAD_NAME`         |                       |
+| `BINARY_XOR`         | `INPLACE_OR`          | `POP_TOP`           |                       |
+| `BINARY_OR`          |                       |                     |                       |
 
 
 Unsupported Instructions:
@@ -109,6 +109,5 @@ Unsupported Instructions:
 - 'BUILD_SET_UNPACK'
 - 'SETUP_ASYNC_WITH'
 - 'FORMAT_VALUE'
-- 'BUILD_CONST_KEY_MAP'
 - 'BUILD_STRING'
 - 'BUILD_TUPLE_UNPACK_WITH_CALL'
