@@ -43,7 +43,7 @@ class TestVirtualMachineFunctions:
         self.frame.stack = [func, 3, 2, 1]
         self.vm.push_frame(self.frame)
         self.vm.instr_CALL_FUNCTION(arg)
-        func.assert_called_with(1, 2, 3)
+        func.assert_called_with(3, 2, 1)
 
     def test_instr_CALL_FUNCTION_KW__passes_keyword_args(self):
         func = MagicMock()

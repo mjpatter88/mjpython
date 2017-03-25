@@ -61,6 +61,7 @@ class VirtualMachine():
         while not control_code:
             instr, arg = frame.get_next_instr()
             func, arg = self.get_func_and_arg(instr, arg)
+            # print(instr, arg)
             if func:
                 control_code = func(arg)
             else:
@@ -80,9 +81,6 @@ class VirtualMachine():
 
 
     ############################################################################
-    def instr_LOAD_CONST(self, arg):
-        self.current_frame.stack.append(arg)
-
     def instr_RETURN_VALUE(self, arg):
         self.return_value = self.current_frame.stack.pop()
         return "RETURN"
@@ -95,9 +93,15 @@ class VirtualMachine():
         val = self.current_frame.locals[arg]
         self.current_frame.stack.append(val)
 
+    def instr_STORE_NAME(self, arg):
+        val = self.current_frame.stack.pop()
+        self.current_frame.locals[arg] = val
+
     def instr_LOAD_NAME(self, arg):
         if arg in self.current_frame.built_ins:
             val = self.current_frame.built_ins[arg]
+        elif arg in self.current_frame.locals:
+            val = self.current_frame.locals[arg]
         else:
             raise VirtualMachineError("instr_LOAD_NAME name not found: " + arg)
         self.current_frame.stack.append(val)
@@ -108,6 +112,9 @@ class VirtualMachine():
         else:
             raise VirtualMachineError("instr_LOAD_GLOBAL name not found: " + arg)
         self.current_frame.stack.append(val)
+
+    def instr_LOAD_CONST(self, arg):
+        self.current_frame.stack.append(arg)
 
     def instr_COMPARE_OP(self, arg):
         func = CMP_OPS[arg]
@@ -180,10 +187,11 @@ class VirtualMachine():
         self.current_frame.stack.append(func(*pos_args, **kw_args))
 
     def _parse_pos_args(self, num):
+        # Quote from docs: "The positional arguments are on the stack, with the right-most argument on top."
         args = []
         for i in range(num):
             args.append(self.current_frame.stack.pop())
-        return args
+        return reversed(args)
 
 
     # The following method handles all binary operations.

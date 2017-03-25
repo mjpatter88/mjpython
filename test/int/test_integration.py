@@ -145,6 +145,13 @@ class TestByteCodeObjectExecution():
             return test_inner_func(10, 15)
         assert self.vm.run_code(test_func.__code__) == 25
 
+    def test_make_and_call_function_pos_args_ordering(self):
+        def test_func():
+            def test_inner_func(a, b):
+                return a - b
+            return test_inner_func(15, 10)
+        assert self.vm.run_code(test_func.__code__) == 5
+
     def test_make_and_call_function_keyword_args(self):
         def test_func():
             def test_inner_func(a=0, b=0):

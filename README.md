@@ -28,7 +28,8 @@ Supported Instructions:
 | `BINARY_RSHIFT`      | `INPLACE_AND`         | `CALL_FUNCTION_KW`  |                       |
 | `BINARY_AND`         | `INPLACE_XOR`         | `LOAD_NAME`         |                       |
 | `BINARY_XOR`         | `INPLACE_OR`          | `POP_TOP`           |                       |
-| `BINARY_OR`          |                       |                     |                       |
+| `BINARY_OR`          |                       | `STORE_NAME`        |                       |
+
 
 
 Unsupported Instructions:
@@ -61,7 +62,6 @@ Unsupported Instructions:
 - 'YIELD_VALUE'
 - 'END_FINALLY'
 - 'POP_EXCEPT'
-- 'STORE_NAME'
 - 'DELETE_NAME'
 - 'UNPACK_SEQUENCE'
 - 'FOR_ITER'

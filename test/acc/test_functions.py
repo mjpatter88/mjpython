@@ -6,7 +6,7 @@ class TestPrinting:
     def setup_method(self):
         self.test_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), "scripts")
 
-    def test_print_ten(self):
+    def test_functions(self):
         test_file_name = "functions.py"
         test_target = os.path.join(self.test_dir, test_file_name)
 
