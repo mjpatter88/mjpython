@@ -4,29 +4,32 @@
 
 Michael's Python - A virtual machine for Python 3.6 bytecode
 
-To execute python script (from base directory): `PYTHONPATH=$(pwd)/src python mjpython.py path_to_script.py`
+To execute a python script (from base project directory): `PYTHONPATH=$(pwd)/src python mjpython.py path_to_script.py`
 
 To execute tests: `./run_tests.sh`
+
+For local development, automatic test running can be helpful. Ex: rerun unit tests on any change: `./watch_tests.sh -c -- test/unit`
 
 https://docs.python.org/3.6/library/dis.html
 
 Supported Instructions:
 
-| Binary Instructions  | In-place              | Misc                |
-|----------------------|-----------------------|---------------------|
-| `BINARY_POWER`       | `INPLACE_POWER`       | `RETURN_VALUE`      |
-| `BINARY_MULTIPLY`    | `INPLACE_MULTIPLY`    | `LOAD_CONST`        |
-| `BINARY_FLOOR_DIVIDE`| `INPLACE_FLOOR_DIVIDE`| `LOAD_FAST`         |
-| `BINARY_TRUE_DIVIDE` | `INPLACE_TRUE_DIVIDE` | `STORE_FAST`        |
-| `BINARY_MODULO`      | `INPLACE_MODULO`      | `POP_JUMP_IF_FALSE` |
-| `BINARY_ADD`         | `INPLACE_ADD`         | `JUMP_ABSOLUTE`     |
-| `BINARY_SUBTRACT`    | `INPLACE_SUBTRACT`    | `BREAK_LOOP`        |
-| `BINARY_SUBSCR`      | `INPLACE_LSHIFT`      | `SETUP_LOOP`        |
-| `BINARY_LSHIFT`      | `INPLACE_RSHIFT`      | `CALL_FUNCTION`     |
-| `BINARY_RSHIFT`      | `INPLACE_AND`         | `POP_TOP`           |
-| `BINARY_AND`         | `INPLACE_XOR`         | `LOAD_NAME`         |
-| `BINARY_XOR`         | `INPLACE_OR`          |                     |
-| `BINARY_OR`          |                       |                     |
+| Binary Instructions  | In-place              | Misc                | Build Data Structures |
+|----------------------|-----------------------|---------------------|-----------------------|
+| `BINARY_POWER`       | `INPLACE_POWER`       | `RETURN_VALUE`      | `BUILD_CONST_KEY_MAP` |
+| `BINARY_MULTIPLY`    | `INPLACE_MULTIPLY`    | `LOAD_CONST`        |                       |
+| `BINARY_FLOOR_DIVIDE`| `INPLACE_FLOOR_DIVIDE`| `LOAD_FAST`         |                       |
+| `BINARY_TRUE_DIVIDE` | `INPLACE_TRUE_DIVIDE` | `STORE_FAST`        |                       |
+| `BINARY_MODULO`      | `INPLACE_MODULO`      | `POP_JUMP_IF_FALSE` |                       |
+| `BINARY_ADD`         | `INPLACE_ADD`         | `JUMP_ABSOLUTE`     |                       |
+| `BINARY_SUBTRACT`    | `INPLACE_SUBTRACT`    | `BREAK_LOOP`        |                       |
+| `BINARY_SUBSCR`      | `INPLACE_LSHIFT`      | `SETUP_LOOP`        |                       |
+| `BINARY_LSHIFT`      | `INPLACE_RSHIFT`      | `CALL_FUNCTION`     |                       |
+| `BINARY_RSHIFT`      | `INPLACE_AND`         | `CALL_FUNCTION_KW`  |                       |
+| `BINARY_AND`         | `INPLACE_XOR`         | `LOAD_NAME`         |                       |
+| `BINARY_XOR`         | `INPLACE_OR`          | `POP_TOP`           |                       |
+| `BINARY_OR`          |                       | `STORE_NAME`        |                       |
+
 
 
 Unsupported Instructions:
@@ -59,7 +62,6 @@ Unsupported Instructions:
 - 'YIELD_VALUE'
 - 'END_FINALLY'
 - 'POP_EXCEPT'
-- 'STORE_NAME'
 - 'DELETE_NAME'
 - 'UNPACK_SEQUENCE'
 - 'FOR_ITER'
@@ -93,7 +95,6 @@ Unsupported Instructions:
 - 'LOAD_DEREF'
 - 'STORE_DEREF'
 - 'DELETE_DEREF'
-- 'CALL_FUNCTION_KW'
 - 'CALL_FUNCTION_EX'
 - 'SETUP_WITH'
 - 'LIST_APPEND'
@@ -108,6 +109,5 @@ Unsupported Instructions:
 - 'BUILD_SET_UNPACK'
 - 'SETUP_ASYNC_WITH'
 - 'FORMAT_VALUE'
-- 'BUILD_CONST_KEY_MAP'
 - 'BUILD_STRING'
 - 'BUILD_TUPLE_UNPACK_WITH_CALL'

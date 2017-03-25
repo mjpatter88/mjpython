@@ -1,1 +1,1 @@
-PYTHONPATH=$(pwd)/src pytest --cov=.
+PYTHONPATH=$(pwd)/src pytest --cov=. $*
