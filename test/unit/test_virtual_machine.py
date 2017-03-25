@@ -118,6 +118,14 @@ class TestVirtualMachine:
         self.vm.instr_LOAD_NAME(arg)
         assert self.frame.stack == [12]
 
+    def test_instr_LOAD_NAME__loads_from_locals_to_current_frames_stack(self):
+        arg = 'foo'
+        self.frame.stack = []
+        self.frame.locals = {arg: 12}
+        self.vm.push_frame(self.frame)
+        self.vm.instr_LOAD_NAME(arg)
+        assert self.frame.stack == [12]
+
     def test_instr_LOAD_NAME__raises_exception_if_name_not_found(self):
         arg = 'foo'
         self.frame.stack = []
@@ -138,6 +146,20 @@ class TestVirtualMachine:
         self.frame.locals = {}
         self.vm.push_frame(self.frame)
         self.vm.instr_STORE_FAST(arg)
+        assert self.frame.locals == {arg: 7}
+
+    def test_instr_STORE_NAME__removes_top_off_current_frames_stack(self):
+        self.frame.stack = [7]
+        self.vm.push_frame(self.frame)
+        self.vm.instr_STORE_NAME(5)
+        assert len(self.frame.stack) == 0
+
+    def test_instr_STORE_NAME__adds_arg_and_top_of_current_frames_stack_to_current_frames_locals(self):
+        arg = "foo"
+        self.frame.stack = [7]
+        self.frame.locals = {}
+        self.vm.push_frame(self.frame)
+        self.vm.instr_STORE_NAME(arg)
         assert self.frame.locals == {arg: 7}
 
     def test_instr_LOAD_FAST__loads_current_frames_local_val_to_current_frames_stack(self):
