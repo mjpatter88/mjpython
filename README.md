@@ -4,11 +4,11 @@
 
 Michael's Python - A virtual machine for Python 3.6 bytecode
 
-To execute a python script (from base project directory): `PYTHONPATH=$(pwd)/src python mjpython.py path_to_script.py`
+Execute a python script (from project directory): `./mjpython path_to_script.py`
 
-To execute tests: `./run_tests.sh`
+Test runner: `./run_tests.sh`
 
-For local development, automatic test running can be helpful. Ex: rerun unit tests on any change: `./watch_tests.sh -c -- test/unit`
+Test watcher: `./watch_tests.sh -c -- test/unit`
 
 https://docs.python.org/3.6/library/dis.html
 
