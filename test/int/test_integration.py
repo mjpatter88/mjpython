@@ -204,11 +204,17 @@ class TestByteCodeObjectExecution():
             return test_inner_func(14, b=7)
         assert self.vm.run_code(test_func.__code__) == 20
 
-    def test_make_and_call_function_closure(self):
-        pass
+#    def test_make_and_call_function_closure(self):
 #        def test_func():
 #            a = 3
 #            def test_inner_func():
 #                return 7 + a
 #            return test_inner_func()
 #        assert self.vm.run_code(test_func.__code__) == 10
+
+    def test_import_from_std_lib(self):
+        def test_func():
+            import math
+            return math
+        import math
+        assert self.vm.run_code(test_func.__code__) == math

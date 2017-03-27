@@ -116,6 +116,13 @@ class VirtualMachine():
     def instr_LOAD_CONST(self, arg):
         self.current_frame.stack.append(arg)
 
+    def instr_IMPORT_NAME(self, arg):
+        # TODO: Pass through "locals()" and "globals()" here?
+        from_list = self.current_frame.stack.pop()
+        level = self.current_frame.stack.pop()
+
+        self.current_frame.stack.append(__import__(arg, from_list, level))
+
     def instr_COMPARE_OP(self, arg):
         func = CMP_OPS[arg]
         b = self.current_frame.stack.pop()
