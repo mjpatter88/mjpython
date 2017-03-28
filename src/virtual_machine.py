@@ -121,7 +121,13 @@ class VirtualMachine():
         from_list = self.current_frame.stack.pop()
         level = self.current_frame.stack.pop()
 
+        # TODO: Implement my own import functionality?
         self.current_frame.stack.append(__import__(arg, from_list, level))
+
+    def instr_IMPORT_FROM(self, arg):
+        module = self.current_frame.stack[-1]
+        attr = getattr(module, arg)
+        self.current_frame.stack.append(attr)
 
     def instr_COMPARE_OP(self, arg):
         func = CMP_OPS[arg]

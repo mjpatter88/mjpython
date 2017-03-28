@@ -20,3 +20,11 @@ class TestVirtualMachineImports:
         self.vm.instr_IMPORT_NAME("os")
         import os
         assert self.frame.stack[0] == os
+
+    def test_instr_IMPORT_FROM__adds_imported_attribute_to_top_of_stack(self):
+        import random
+        self.frame.stack = [random]
+        self.vm.push_frame(self.frame)
+        self.vm.instr_IMPORT_FROM("shuffle")
+        from random import shuffle
+        assert self.frame.stack == [random, shuffle]

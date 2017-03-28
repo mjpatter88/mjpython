@@ -212,9 +212,23 @@ class TestByteCodeObjectExecution():
 #            return test_inner_func()
 #        assert self.vm.run_code(test_func.__code__) == 10
 
-    def test_import_from_std_lib(self):
+    def test_import_a_std_lib(self):
         def test_func():
             import math
             return math
         import math
         assert self.vm.run_code(test_func.__code__) == math
+
+    def test_import_from_a_std_lib(self):
+        def test_func():
+            from random import shuffle
+            return shuffle
+        from random import shuffle
+        assert self.vm.run_code(test_func.__code__) == shuffle
+
+    def test_import_multiple_from_a_std_lib(self):
+        def test_func():
+            from math import pi, e, tau
+            return pi + e + tau
+        from math import pi, e, tau
+        assert self.vm.run_code(test_func.__code__) == pi + e + tau
