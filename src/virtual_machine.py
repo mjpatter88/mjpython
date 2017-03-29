@@ -117,12 +117,12 @@ class VirtualMachine():
         self.current_frame.stack.append(arg)
 
     def instr_IMPORT_NAME(self, arg):
-        # TODO: Pass through "locals()" and "globals()" here?
         from_list = self.current_frame.stack.pop()
         level = self.current_frame.stack.pop()
 
         # TODO: Implement my own import functionality?
-        self.current_frame.stack.append(__import__(arg, from_list, level))
+        mod = __import__(arg, globals=globals(), locals=locals(), fromlist=from_list, level=level)
+        self.current_frame.stack.append(mod)
 
     def instr_IMPORT_FROM(self, arg):
         module = self.current_frame.stack[-1]
