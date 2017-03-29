@@ -116,6 +116,26 @@ class VirtualMachine():
     def instr_LOAD_CONST(self, arg):
         self.current_frame.stack.append(arg)
 
+    def instr_IMPORT_NAME(self, arg):
+        from_list = self.current_frame.stack.pop()
+        level = self.current_frame.stack.pop()
+
+        # TODO: Implement my own import functionality?
+        mod = __import__(arg, globals=globals(), locals=locals(), fromlist=from_list, level=level)
+        self.current_frame.stack.append(mod)
+
+    def instr_IMPORT_FROM(self, arg):
+        module = self.current_frame.stack[-1]
+        attr = getattr(module, arg)
+        self.current_frame.stack.append(attr)
+
+    def instr_IMPORT_STAR(self, arg):
+        module = self.current_frame.stack[-1]
+        symbols = [symbol for symbol in dir(module) if not symbol.startswith('_')]
+        for symbol in symbols:
+            member = getattr(module, symbol)
+            self.current_frame.locals[symbol] = member
+
     def instr_COMPARE_OP(self, arg):
         func = CMP_OPS[arg]
         b = self.current_frame.stack.pop()

@@ -204,11 +204,38 @@ class TestByteCodeObjectExecution():
             return test_inner_func(14, b=7)
         assert self.vm.run_code(test_func.__code__) == 20
 
-    def test_make_and_call_function_closure(self):
-        pass
+#    def test_make_and_call_function_closure(self):
 #        def test_func():
 #            a = 3
 #            def test_inner_func():
 #                return 7 + a
 #            return test_inner_func()
 #        assert self.vm.run_code(test_func.__code__) == 10
+
+    def test_import_a_std_lib(self):
+        def test_func():
+            import math
+            return math
+        import math
+        assert self.vm.run_code(test_func.__code__) == math
+
+    def test_import_attr_from_a_std_lib(self):
+        def test_func():
+            from random import shuffle
+            return shuffle
+        from random import shuffle
+        assert self.vm.run_code(test_func.__code__) == shuffle
+
+    def test_import_multiple_attr_from_a_std_lib(self):
+        def test_func():
+            from math import pi, e, tau
+            return pi + e + tau
+        from math import pi, e, tau
+        assert self.vm.run_code(test_func.__code__) == pi + e + tau
+
+    def test_import_mod_from_a_std_lib(self):
+        def test_func():
+            from test import support
+            return support
+        from test import support
+        assert self.vm.run_code(test_func.__code__) == support

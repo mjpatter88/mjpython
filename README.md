@@ -31,6 +31,11 @@ Supported Instructions:
 | `BINARY_OR`          |                       | `STORE_NAME`        |                       |
 
 
+| Imports       |
+|---------------|
+| `IMPORT_FROM` |
+| `IMPORT_NAME` |
+| `IMPORT_STAR` |
 
 Unsupported Instructions:
 - 'ROT_TWO'
@@ -57,7 +62,6 @@ Unsupported Instructions:
 - 'GET_AWAITABLE'
 - 'WITH_CLEANUP_START'
 - 'WITH_CLEANUP_FINISH'
-- 'IMPORT_STAR'
 - 'SETUP_ANNOTATIONS'
 - 'YIELD_VALUE'
 - 'END_FINALLY'
@@ -76,8 +80,6 @@ Unsupported Instructions:
 - 'BUILD_MAP'
 - 'LOAD_ATTR'
 - 'COMPARE_OP'
-- 'IMPORT_NAME'
-- 'IMPORT_FROM'
 - 'JUMP_FORWARD'
 - 'JUMP_IF_FALSE_OR_POP'
 - 'JUMP_IF_TRUE_OR_POP'

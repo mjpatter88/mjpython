@@ -5,15 +5,11 @@ from block import Block
 from unittest.mock import MagicMock, patch
 import pytest
 
-class TestVirtualMachine:
+class TestVirtualMachineBuildDataStructures:
     def setup_method(self):
         self.vm = VirtualMachine()
         self.frame = MagicMock()
         self.frame.blocks = []
-
-    def test_push_frame__adds_frame_to_frame_stack(self):
-        self.vm.push_frame(self.frame)
-        assert self.vm.frames[0] == self.frame
 
     def test_instr_BUILD_CONST_KEY_MAP__consumes_count_elements_from_stack(self):
         count = 3
