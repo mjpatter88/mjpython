@@ -129,6 +129,13 @@ class VirtualMachine():
         attr = getattr(module, arg)
         self.current_frame.stack.append(attr)
 
+    def instr_IMPORT_STAR(self, arg):
+        module = self.current_frame.stack[-1]
+        symbols = [symbol for symbol in dir(module) if not symbol.startswith('_')]
+        for symbol in symbols:
+            member = getattr(module, symbol)
+            self.current_frame.locals[symbol] = member
+
     def instr_COMPARE_OP(self, arg):
         func = CMP_OPS[arg]
         b = self.current_frame.stack.pop()

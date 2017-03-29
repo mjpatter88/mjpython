@@ -35,6 +35,7 @@ Supported Instructions:
 |---------------|
 | `IMPORT_FROM` |
 | `IMPORT_NAME` |
+| `IMPORT_STAR` |
 
 Unsupported Instructions:
 - 'ROT_TWO'
@@ -61,7 +62,6 @@ Unsupported Instructions:
 - 'GET_AWAITABLE'
 - 'WITH_CLEANUP_START'
 - 'WITH_CLEANUP_FINISH'
-- 'IMPORT_STAR'
 - 'SETUP_ANNOTATIONS'
 - 'YIELD_VALUE'
 - 'END_FINALLY'
