@@ -17,7 +17,7 @@ Supported Instructions:
 | Binary Instructions  | In-place              | Misc                | Build Data Structures |
 |----------------------|-----------------------|---------------------|-----------------------|
 | `BINARY_POWER`       | `INPLACE_POWER`       | `RETURN_VALUE`      | `BUILD_CONST_KEY_MAP` |
-| `BINARY_MULTIPLY`    | `INPLACE_MULTIPLY`    | `LOAD_CONST`        |                       |
+| `BINARY_MULTIPLY`    | `INPLACE_MULTIPLY`    | `LOAD_CONST`        | `LOAD_BUILD_CLASS`    |
 | `BINARY_FLOOR_DIVIDE`| `INPLACE_FLOOR_DIVIDE`| `LOAD_FAST`         |                       |
 | `BINARY_TRUE_DIVIDE` | `INPLACE_TRUE_DIVIDE` | `STORE_FAST`        |                       |
 | `BINARY_MODULO`      | `INPLACE_MODULO`      | `POP_JUMP_IF_FALSE` |                       |
@@ -57,7 +57,6 @@ Unsupported Instructions:
 - 'GET_ITER'
 - 'GET_YIELD_FROM_ITER'
 - 'PRINT_EXPR'
-- 'LOAD_BUILD_CLASS'
 - 'YIELD_FROM'
 - 'GET_AWAITABLE'
 - 'WITH_CLEANUP_START'
