@@ -52,7 +52,7 @@ class VirtualMachine():
         self.current_frame = self.frames[-1]
 
     def run_code(self, code):
-        self.push_frame(Frame(code))
+        self.push_frame(Frame(code, "__main__"))
         self.run_frame(self.current_frame)
         return self.return_value
 
@@ -135,6 +135,10 @@ class VirtualMachine():
         for symbol in symbols:
             member = getattr(module, symbol)
             self.current_frame.locals[symbol] = member
+
+    def instr_LOAD_BUILD_CLASS(self, arg):
+        class_builder = __builtins__['__build_class__']
+        self.current_frame.stack.append(class_builder)
 
     def instr_COMPARE_OP(self, arg):
         func = CMP_OPS[arg]

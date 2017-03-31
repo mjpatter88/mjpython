@@ -239,3 +239,10 @@ class TestByteCodeObjectExecution():
             return support
         from test import support
         assert self.vm.run_code(test_func.__code__) == support
+
+    def test_build_class(self):
+        def test_func():
+            class Foo:
+                pass
+            return Foo
+        assert type(self.vm.run_code(test_func.__code__)) == type(type)
