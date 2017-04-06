@@ -1,9 +1,9 @@
 from virtual_machine import VirtualMachine, BIN_OPS, VirtualMachineError
-from frame import Frame
 from block import Block
 
 from unittest.mock import MagicMock, patch
 import pytest
+
 
 class TestVirtualMachine:
     def setup_method(self):
@@ -15,10 +15,10 @@ class TestVirtualMachine:
         assert self.vm.frames == []
 
     def test_init__no_current_frame(self):
-        assert self.vm.current_frame == None
+        assert self.vm.current_frame is None
 
     def test_init__no_return_value(self):
-        assert self.vm.return_value == None
+        assert self.vm.return_value is None
 
     def test_push_frame__adds_frame_to_frame_stack(self):
         self.vm.push_frame(self.frame)
@@ -130,6 +130,15 @@ class TestVirtualMachine:
         self.vm.push_frame(self.frame)
         self.vm.instr_LOAD_NAME(arg)
         assert self.frame.stack == [12]
+
+    def test_instr_LOAD_NAME__loads_from_locals_before_builtins_if_name_in_both(self):
+        arg = 'foo'
+        self.frame.stack = []
+        self.frame.locals = {arg: 7}
+        self.frame.built_ins = {arg: 12}
+        self.vm.push_frame(self.frame)
+        self.vm.instr_LOAD_NAME(arg)
+        assert self.frame.stack == [7]
 
     def test_instr_LOAD_NAME__raises_exception_if_name_not_found(self):
         arg = 'foo'

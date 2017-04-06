@@ -1,6 +1,7 @@
 import dis
 
-class Frame():
+
+class Frame:
     def __init__(self, code, name=None):
         self.code = code
         self.stack = []

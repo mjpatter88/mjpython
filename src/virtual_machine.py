@@ -98,10 +98,10 @@ class VirtualMachine():
         self.current_frame.locals[arg] = val
 
     def instr_LOAD_NAME(self, arg):
-        if arg in self.current_frame.built_ins:
-            val = self.current_frame.built_ins[arg]
-        elif arg in self.current_frame.locals:
+        if arg in self.current_frame.locals:
             val = self.current_frame.locals[arg]
+        elif arg in self.current_frame.built_ins:
+            val = self.current_frame.built_ins[arg]
         else:
             raise VirtualMachineError("instr_LOAD_NAME name not found: " + arg)
         self.current_frame.stack.append(val)

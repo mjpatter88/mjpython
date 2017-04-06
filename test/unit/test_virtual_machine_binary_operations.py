@@ -1,7 +1,7 @@
 from virtual_machine import VirtualMachine, BIN_OPS
-from frame import Frame
 
 from unittest.mock import MagicMock
+
 
 class TestVirtualMachineBinaryOperations:
     def setup_method(self):
