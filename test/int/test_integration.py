@@ -246,3 +246,11 @@ class TestByteCodeObjectExecution():
                 pass
             return Foo
         assert type(self.vm.run_code(test_func.__code__)) == type(type)
+
+    def test_load_attribute(self):
+        def test_func():
+            import math
+            a = math.pi
+            return a
+        import math
+        assert self.vm.run_code(test_func.__code__) == math.pi

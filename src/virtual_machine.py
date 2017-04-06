@@ -116,6 +116,10 @@ class VirtualMachine():
     def instr_LOAD_CONST(self, arg):
         self.current_frame.stack.append(arg)
 
+    def instr_LOAD_ATTR(self, arg):
+        obj = self.current_frame.stack.pop()
+        self.current_frame.stack.append(getattr(obj, arg))
+
     def instr_IMPORT_NAME(self, arg):
         from_list = self.current_frame.stack.pop()
         level = self.current_frame.stack.pop()

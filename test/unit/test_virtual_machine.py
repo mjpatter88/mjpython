@@ -139,6 +139,17 @@ class TestVirtualMachine:
         with pytest.raises(VirtualMachineError):
             self.vm.instr_LOAD_NAME(arg)
 
+    def test_instr_LOAD_ATTR__sets_TOS_to_attr_from_TOS(self):
+        arg = 'foo'
+        val = 10
+        tos = MagicMock()
+        setattr(tos, arg, val)
+        self.frame.stack = [tos]
+
+        self.vm.push_frame(self.frame)
+        self.vm.instr_LOAD_ATTR(arg)
+        assert self.frame.stack == [val]
+
     def test_instr_STORE_FAST__removes_top_off_current_frames_stack(self):
         self.frame.stack = [7]
         self.vm.push_frame(self.frame)

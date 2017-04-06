@@ -29,6 +29,7 @@ Supported Instructions:
 | `BINARY_AND`         | `INPLACE_XOR`         | `LOAD_NAME`         |                       |
 | `BINARY_XOR`         | `INPLACE_OR`          | `POP_TOP`           |                       |
 | `BINARY_OR`          |                       | `STORE_NAME`        |                       |
+|                      |                       | `LOAD_ATTR`         |                       |
 
 
 | Imports       |
@@ -77,7 +78,6 @@ Unsupported Instructions:
 - 'BUILD_LIST'
 - 'BUILD_SET'
 - 'BUILD_MAP'
-- 'LOAD_ATTR'
 - 'COMPARE_OP'
 - 'JUMP_FORWARD'
 - 'JUMP_IF_FALSE_OR_POP'
