@@ -1,11 +1,11 @@
 import dis
 
 class Frame():
-    def __init__(self, code):
+    def __init__(self, code, name=None):
         self.code = code
         self.stack = []
         self.instr_pointer = 0
-        self.locals = {}
+        self.locals = {"__name__": name}
         self.blocks = []
         self.built_ins = __builtins__
 

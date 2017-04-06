@@ -24,22 +24,23 @@ class TestFrame:
         frame = Frame(code)
         assert frame.instr_pointer == 0
 
-    def test_init__sets_locals_to_empty_dict(self):
-        code = MagicMock()
-        frame = Frame(code)
-        assert frame.locals == {}
-
     def test_init__sets_built_ins_to_built_ins(self):
         code = MagicMock()
         frame = Frame(code)
         assert frame.built_ins == __builtins__
+
+    def test_init__sets_name_in_locals(self):
+        code = MagicMock()
+        name = "foo"
+        frame = Frame(code, name)
+        assert frame.locals["__name__"] == name
 
     def test_set_local_adds_name_and_value_in_locals(self):
         frame = Frame(MagicMock())
         name = "foo"
         value = 7
         frame.set_local(name, value)
-        assert frame.locals == {name: value}
+        assert frame.locals[name] == value
 
     def test_get_next_instr__returns_first_instruction(self):
         code = MagicMock()

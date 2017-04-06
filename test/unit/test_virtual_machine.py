@@ -43,6 +43,11 @@ class TestVirtualMachine:
         self.vm.run_code(code)
         assert self.vm.frames[0].code == code
 
+    def test_run_code__assigns_main_as_new_frames_name(self):
+        code = compile("None", "<string>", "eval")
+        self.vm.run_code(code)
+        assert self.vm.frames[0].locals["__name__"] == "__main__"
+
     @patch('virtual_machine.Frame')
     def test_run_code__returns_the_result_of_execution(self, frame):
         code = MagicMock()
@@ -133,6 +138,17 @@ class TestVirtualMachine:
         self.vm.push_frame(self.frame)
         with pytest.raises(VirtualMachineError):
             self.vm.instr_LOAD_NAME(arg)
+
+    def test_instr_LOAD_ATTR__sets_TOS_to_attr_from_TOS(self):
+        arg = 'foo'
+        val = 10
+        tos = MagicMock()
+        setattr(tos, arg, val)
+        self.frame.stack = [tos]
+
+        self.vm.push_frame(self.frame)
+        self.vm.instr_LOAD_ATTR(arg)
+        assert self.frame.stack == [val]
 
     def test_instr_STORE_FAST__removes_top_off_current_frames_stack(self):
         self.frame.stack = [7]
@@ -241,8 +257,14 @@ class TestVirtualMachine:
         self.vm.push_frame(self.frame)
         assert self.vm.instr_RETURN_VALUE(0) == "RETURN"
 
-    def test_inst_POP_TOP__removes_the_current_frames_top_of_stack(self):
+    def test_instr_POP_TOP__removes_the_current_frames_top_of_stack(self):
         self.frame.stack = ["foo"]
         self.vm.push_frame(self.frame)
         self.vm.instr_POP_TOP(0)
         assert self.frame.stack == []
+
+    def test_instr_LOAD_BUILD_CLASS(self):
+        self.frame.stack = []
+        self.vm.push_frame(self.frame)
+        self.vm.instr_LOAD_BUILD_CLASS(0)
+        assert self.frame.stack == [__builtins__['__build_class__']]
