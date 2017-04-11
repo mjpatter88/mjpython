@@ -11,13 +11,16 @@ codecov==2.0.5
 colorama==0.3.7           # via pytest-watch
 coverage==4.3.4           # via codecov, pytest-cov
 docopt==0.6.2             # via pytest-watch
+easyprocess==0.2.3        # via pyvirtualdisplay
 packaging==16.8           # via setuptools
 pathtools==0.1.2          # via watchdog
 py==1.4.33                # via pytest
 pyparsing==2.2.0          # via packaging
 pytest-cov==2.4.0
 pytest-watch==4.1.0
+pytest-xvfb==1.0.0
 pytest==3.0.7
+pyvirtualdisplay==0.2.1   # via pytest-xvfb
 pyyaml==3.12              # via watchdog
 requests==2.13.0          # via codecov
 six==1.10.0               # via packaging, setuptools
