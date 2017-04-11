@@ -1,6 +1,7 @@
 language: python
 sudo: required
 python: 3.6
+dist: xenial
 
 install:
     - sudo apt-get -y install python3-pyqt5
