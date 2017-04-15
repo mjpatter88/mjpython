@@ -1,3 +1,5 @@
+from dis import Bytecode
+
 from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtWidgets import QGridLayout
 from PyQt5.QtWidgets import QListWidget
@@ -11,18 +13,16 @@ class Dbg(QWidget):
 
         self.grid = QGridLayout()
         self.grid.setSpacing(10)
+        self.setLayout(self.grid)
 
-        self.python_source = QListWidget()
+        self.py_src = QListWidget()
+        self.pyc = QListWidget()
 
-        l2 = QListWidget()
-        for x in range(100):
-            l2.addItem("Another Item {}".format(x))
-        self.grid.addWidget(self.python_source, 1, 0, 1, 2)
-        self.grid.addWidget(l2, 1, 2, 1, 2)
+        self.grid.addWidget(self.py_src, 1, 0, 1, 2)
+        self.grid.addWidget(self.pyc, 1, 2, 1, 2)
 
         self.add_open_button()
 
-        self.setLayout(self.grid)
 
     def add_open_button(self):
         open_button = QPushButton("Open File")
@@ -35,11 +35,21 @@ class Dbg(QWidget):
         file_name = QFileDialog.getOpenFileName(self, 'Open file')
 
         if file_name[0]:
-            self.load_source_code(file_name[0])
+            self.load_py_src(file_name[0])
+            self.load_pyc(file_name[0])
 
-    def load_source_code(self, file_name):
+    def load_py_src(self, file_name):
         with open(file_name, 'r') as f:
             lines = f.read().splitlines()
 
         for line in lines:
-            self.python_source.addItem(line)
+            self.py_src.addItem(line)
+
+    def load_pyc(self, file_name):
+        with open(file_name, 'r') as f:
+            pyc = compile(f.read(), file_name, 'exec')
+
+        bc = Bytecode(pyc)
+
+        for line in bc.dis().splitlines():
+            self.pyc.addItem(line)
