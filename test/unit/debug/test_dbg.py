@@ -24,6 +24,9 @@ class TestDbg:
     def test_init__adds_four_widgets_to_grid(self):
         assert self.dbg.layout().count() == 8
 
+    def test_init__creates_new_vm(self):
+        assert self.dbg.vm
+
     def test_open_action__names_action_open(self):
         open_action = self.dbg.open_action()
         assert open_action.text() == 'Open'

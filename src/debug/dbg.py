@@ -8,6 +8,8 @@ from PyQt5.QtWidgets import QLabel
 from PyQt5.QtWidgets import QListWidget
 from PyQt5.QtWidgets import QWidget
 
+from virtual_machine import VirtualMachine
+
 PY_SRC_LABEL_POS = (1, 0)
 PY_SRC_LABEL_SPAN = (1, 1)
 
@@ -37,6 +39,8 @@ class Dbg(QWidget):
     def __init__(self):
         super().__init__()
 
+        self.vm = VirtualMachine()
+
         self.grid = QGridLayout()
         self.grid.setSpacing(10)
         self.setLayout(self.grid)
@@ -50,7 +54,7 @@ class Dbg(QWidget):
         self.grid.addWidget(pyc_label, *PYC_LABEL_POS, *PYC_LABEL_SPAN)
         self.grid.addWidget(self.py_src, *PY_SRC_POS, *PY_SRC_SPAN)
         self.grid.addWidget(self.pyc, *PYC_POS, *PYC_SPAN)
-        self.grid.setRowStretch(PY_SRC_POS[0], 100)
+        self.grid.setRowStretch(PY_SRC_POS[0], 2)
 
         call_stack_label = QLabel('Call Stack')
         local_vars_label = QLabel('Locals')
@@ -74,6 +78,7 @@ class Dbg(QWidget):
         if file_name[0]:
             self.load_py_src(file_name[0])
             self.load_pyc(file_name[0])
+            self.init_vm(file_name[0])
 
     def load_py_src(self, file_name):
         with open(file_name, 'r') as f:
@@ -83,10 +88,18 @@ class Dbg(QWidget):
             self.py_src.addItem(line)
 
     def load_pyc(self, file_name):
-        with open(file_name, 'r') as f:
-            pyc = compile(f.read(), file_name, 'exec')
-
+        pyc = compile_file(file_name)
         bc = Bytecode(pyc)
 
         for line in bc.dis().splitlines():
             self.pyc.addItem(line)
+
+    def init_vm(self, file_name):
+        pyc = compile_file(file_name)
+        self.vm.set_code(pyc)
+
+
+def compile_file(file_name):
+    with open(file_name, 'r') as f:
+        pyc = compile(f.read(), file_name, 'exec')
+    return pyc

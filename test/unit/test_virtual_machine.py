@@ -28,24 +28,24 @@ class TestVirtualMachine:
         self.vm.push_frame(self.frame)
         assert self.vm.frames[0] == self.vm.current_frame
 
-    def test_run_code__creates_a_new_frame(self):
+    def test_set_code__creates_a_new_frame(self):
         code = compile("None", "<string", 'eval')
-        self.vm.run_code(code)
+        self.vm.set_code(code)
         assert len(self.vm.frames) == 1
 
-    def test_run_code__sets_current_frame_to_the_new_frame(self):
+    def test_set_code__sets_current_frame_to_the_new_frame(self):
         code = compile("None", "<string", 'eval')
-        self.vm.run_code(code)
+        self.vm.set_code(code)
         assert self.vm.frames[0] == self.vm.current_frame
 
-    def test_run_code__assigns_given_code_to_the_new_frame(self):
+    def test_set_code__assigns_given_code_to_the_new_frame(self):
         code = compile("None", "<string>", "eval")
-        self.vm.run_code(code)
+        self.vm.set_code(code)
         assert self.vm.frames[0].code == code
 
-    def test_run_code__assigns_main_as_new_frames_name(self):
+    def test_set_code__assigns_main_as_new_frames_name(self):
         code = compile("None", "<string>", "eval")
-        self.vm.run_code(code)
+        self.vm.set_code(code)
         assert self.vm.frames[0].locals["__name__"] == "__main__"
 
     @patch('virtual_machine.Frame')

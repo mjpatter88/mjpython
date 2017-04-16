@@ -38,8 +38,10 @@ BIN_OPS = {
 HAS_POS_ARG_DEFS = 1
 HAS_KW_ARG_DEFS = 2
 
+
 class VirtualMachineError(Exception):
     pass
+
 
 class VirtualMachine():
     def __init__(self):
@@ -52,9 +54,12 @@ class VirtualMachine():
         self.current_frame = self.frames[-1]
 
     def run_code(self, code):
-        self.push_frame(Frame(code, "__main__"))
+        self.set_code(code)
         self.run_frame(self.current_frame)
         return self.return_value
+
+    def set_code(self, code):
+        self.push_frame(Frame(code, "__main__"))
 
     def run_frame(self, frame):
         control_code = None
@@ -220,7 +225,6 @@ class VirtualMachine():
         for i in range(num):
             args.append(self.current_frame.stack.pop())
         return reversed(args)
-
 
     # The following method handles all binary operations.
     # It also handles all inplace operations, as they are basically just
