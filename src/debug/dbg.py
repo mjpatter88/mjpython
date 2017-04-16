@@ -1,10 +1,17 @@
 from dis import Bytecode
 
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QAction
 from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtWidgets import QGridLayout
 from PyQt5.QtWidgets import QListWidget
-from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtWidgets import QWidget
+
+PY_SRC_POS = (1, 0)
+PY_SRC_SPAN = (1, 2)
+
+PYC_POS = (1, 2)
+PYC_SPAN = (1, 2)
 
 
 class Dbg(QWidget):
@@ -18,18 +25,14 @@ class Dbg(QWidget):
         self.py_src = QListWidget()
         self.pyc = QListWidget()
 
-        self.grid.addWidget(self.py_src, 1, 0, 1, 2)
-        self.grid.addWidget(self.pyc, 1, 2, 1, 2)
+        self.grid.addWidget(self.py_src, *PY_SRC_POS, *PY_SRC_SPAN)
+        self.grid.addWidget(self.pyc, *PYC_POS, *PYC_SPAN)
 
-        self.add_open_button()
-
-
-    def add_open_button(self):
-        open_button = QPushButton("Open File")
-        open_button.setMinimumHeight(100)
-        open_button.clicked.connect(self.show_open_dialog)
-
-        self.grid.addWidget(open_button, 0, 1, 1, 2)
+    def open_action(self):
+        open_icon = QIcon.fromTheme('folder')
+        open_action = QAction(open_icon, 'Open', self)
+        open_action.triggered.connect(self.show_open_dialog)
+        return open_action
 
     def show_open_dialog(self):
         file_name = QFileDialog.getOpenFileName(self, 'Open file')
