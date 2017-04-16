@@ -22,7 +22,7 @@ class TestDbg:
         assert isinstance(self.dbg.layout(), QGridLayout)
 
     def test_init__adds_four_widgets_to_grid(self):
-        assert self.dbg.layout().count() == 4
+        assert self.dbg.layout().count() == 8
 
     def test_open_action__names_action_open(self):
         open_action = self.dbg.open_action()

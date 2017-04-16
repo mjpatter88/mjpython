@@ -20,6 +20,18 @@ PY_SRC_SPAN = (1, 2)
 PYC_POS = (2, 2)
 PYC_SPAN = (1, 2)
 
+CALL_STACK_LABEL_POS = (3, 0)
+CALL_STACK_LABEL_SPAN = (1, 1)
+
+LOCAL_VARS_LABEL_POS = (3, 2)
+LOCAL_VARS_LABEL_SPAN = (1, 1)
+
+CALL_STACK_POS = (4, 0)
+CALL_STACK_SPAN = (1, 2)
+
+LOCAL_VARS_POS = (4, 2)
+LOCAL_VARS_SPAN = (1, 2)
+
 
 class Dbg(QWidget):
     def __init__(self):
@@ -29,15 +41,26 @@ class Dbg(QWidget):
         self.grid.setSpacing(10)
         self.setLayout(self.grid)
 
-        self.py_src_label = QLabel('Python Source')
+        py_src_label = QLabel('Python Source')
+        pyc_label = QLabel('CPython Bytecode')
         self.py_src = QListWidget()
-        self.pyc_label = QLabel('CPython Bytecode')
         self.pyc = QListWidget()
 
-        self.grid.addWidget(self.py_src_label, *PY_SRC_LABEL_POS, *PY_SRC_LABEL_SPAN)
-        self.grid.addWidget(self.pyc_label, *PYC_LABEL_POS, *PYC_LABEL_SPAN)
+        self.grid.addWidget(py_src_label, *PY_SRC_LABEL_POS, *PY_SRC_LABEL_SPAN)
+        self.grid.addWidget(pyc_label, *PYC_LABEL_POS, *PYC_LABEL_SPAN)
         self.grid.addWidget(self.py_src, *PY_SRC_POS, *PY_SRC_SPAN)
         self.grid.addWidget(self.pyc, *PYC_POS, *PYC_SPAN)
+        self.grid.setRowStretch(PY_SRC_POS[0], 100)
+
+        call_stack_label = QLabel('Call Stack')
+        local_vars_label = QLabel('Locals')
+        self.call_stack = QListWidget()
+        self.local_vars = QListWidget()
+
+        self.grid.addWidget(call_stack_label, *CALL_STACK_LABEL_POS, *PY_SRC_LABEL_SPAN)
+        self.grid.addWidget(local_vars_label, *LOCAL_VARS_LABEL_POS, *PYC_LABEL_SPAN)
+        self.grid.addWidget(self.call_stack, *CALL_STACK_POS, *PY_SRC_SPAN)
+        self.grid.addWidget(self.local_vars, *LOCAL_VARS_POS, *PYC_SPAN)
 
     def open_action(self):
         open_icon = QIcon.fromTheme('folder')
