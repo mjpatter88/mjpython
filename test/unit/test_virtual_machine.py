@@ -57,20 +57,35 @@ class TestVirtualMachine:
         frame.return_value = f
         assert self.vm.run_code(code) == 10
 
-    def test_run_frame__stops_execution_at_return(self):
+    def test_step__returns_control_code(self):
         self.frame.get_next_instr.side_effect = [("LOAD_CONST", 10), ("RETURN_VALUE", 0),
-                                            ("LOAD_CONST", 15), ("RETURN_VALUE", 0)]
+                                                 ("LOAD_CONST", 15), ("RETURN_VALUE", 0)]
         self.frame.stack = []
         self.vm.push_frame(self.frame)
-        self.vm.run_frame(self.frame)
-        assert self.vm.return_value == 10
+        self.vm.step()
+        assert self.vm.step() == "RETURN"
 
-    def test_run_frame__raises_unsupported_instr_ex_when_instr_not_recognized(self):
+    def test_step__raises_unsupported_instr_ex_when_instr_not_recognized(self):
         self.frame.get_next_instr.return_value = ("FAKE_INSTR", 0)
         self.frame.stack = []
         self.vm.push_frame(self.frame)
         with pytest.raises(VirtualMachineError):
-            self.vm.run_frame(self.frame)
+            self.vm.step()
+
+    def test_run__stops_execution_at_return(self):
+        self.frame.get_next_instr.side_effect = [("LOAD_CONST", 10), ("RETURN_VALUE", 0),
+                                            ("LOAD_CONST", 15), ("RETURN_VALUE", 0)]
+        self.frame.stack = []
+        self.vm.push_frame(self.frame)
+        self.vm.run()
+        assert self.vm.return_value == 10
+
+    def test_run__raises_unsupported_instr_ex_when_instr_not_recognized(self):
+        self.frame.get_next_instr.return_value = ("FAKE_INSTR", 0)
+        self.frame.stack = []
+        self.vm.push_frame(self.frame)
+        with pytest.raises(VirtualMachineError):
+            self.vm.run()
 
     def test_get_func__returns_instr_function(self):
         instr = "LOAD_CONST"

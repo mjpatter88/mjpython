@@ -55,24 +55,28 @@ class VirtualMachine():
 
     def run_code(self, code):
         self.set_code(code)
-        self.run_frame(self.current_frame)
+        self.run()
         return self.return_value
 
     def set_code(self, code):
         self.push_frame(Frame(code, "__main__"))
 
-    def run_frame(self, frame):
+    def step(self):
+        instr, arg = self.current_frame.get_next_instr()
+        func, arg = self.get_func_and_arg(instr, arg)
+        # print(instr, arg)
+        if func:
+            control_code = func(arg)
+        else:
+            print(instr, arg)
+            print(self.current_frame.stack)
+            raise VirtualMachineError("Unsupported Instruction: " + instr)
+        return control_code
+
+    def run(self):
         control_code = None
         while not control_code:
-            instr, arg = frame.get_next_instr()
-            func, arg = self.get_func_and_arg(instr, arg)
-            # print(instr, arg)
-            if func:
-                control_code = func(arg)
-            else:
-                print(instr, arg)
-                print(self.current_frame.stack)
-                raise VirtualMachineError("Unsupported Instruction: " + instr)
+            control_code = self.step()
         return control_code
 
     def get_func_and_arg(self, instr, arg):
@@ -83,7 +87,6 @@ class VirtualMachine():
             return func, arg
         else:
             return getattr(self, "instr_{}".format(instr), None), arg
-
 
     ############################################################################
     def instr_RETURN_VALUE(self, arg):
