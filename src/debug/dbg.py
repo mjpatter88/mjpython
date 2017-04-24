@@ -79,6 +79,7 @@ class Dbg(QWidget):
             self.load_py_src(file_name[0])
             self.load_pyc(file_name[0])
             self.init_vm(file_name[0])
+            self.set_local_vars()
 
     def load_py_src(self, file_name):
         with open(file_name, 'r') as f:
@@ -97,6 +98,10 @@ class Dbg(QWidget):
     def init_vm(self, file_name):
         pyc = compile_file(file_name)
         self.vm.set_code(pyc)
+
+    def set_local_vars(self):
+        for item in self.vm.current_frame.locals.items():
+            self.local_vars.addItem("{} = {} {}".format(item[0], type(item[1]), item[1]))
 
 
 def compile_file(file_name):
