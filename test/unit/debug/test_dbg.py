@@ -29,6 +29,9 @@ class TestDbg:
     def test_init__creates_new_vm(self):
         assert self.dbg.vm
 
+    def test_init__sets_current_instruction_to_zero(self):
+        assert self.dbg.current_pyc_instr == 0
+
     def test_open_action__names_action_open(self):
         open_action = self.dbg.open_action()
         assert open_action.text() == 'Open'
@@ -57,3 +60,16 @@ class TestDbg:
         self.dbg.vm = vm
         self.dbg.step()
         vm.step.assert_called()
+
+    def test_step__advances_to_next_pyc_instruction_that_isnt_blank(self):
+        vm = Mock()
+        vm.current_frame.locals = {}
+        self.dbg.vm = vm
+        self.dbg.pyc.addItem("foo")
+        self.dbg.pyc.addItem("")
+        self.dbg.pyc.addItem("bar")
+
+        self.dbg.step()
+
+        assert self.dbg.current_pyc_instr == 2
+        assert self.dbg.pyc.item(2).isSelected()

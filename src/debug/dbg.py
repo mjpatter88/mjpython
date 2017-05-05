@@ -66,6 +66,8 @@ class Dbg(QWidget):
         self.grid.addWidget(self.call_stack, *CALL_STACK_POS, *PY_SRC_SPAN)
         self.grid.addWidget(self.local_vars, *LOCAL_VARS_POS, *PYC_SPAN)
 
+        self.current_pyc_instr = 0
+
     def open_action(self):
         open_icon = QIcon.fromTheme('folder')
         open_action = QAction(open_icon, 'Open', self)
@@ -86,6 +88,7 @@ class Dbg(QWidget):
             self.load_pyc(file_name[0])
             self.init_vm(file_name[0])
             self.set_local_vars()
+            self._set_selected_pyc_instr()
 
     def load_py_src(self, file_name):
         with open(file_name, 'r') as f:
@@ -110,9 +113,21 @@ class Dbg(QWidget):
         for item in self.vm.current_frame.locals.items():
             self.local_vars.addItem("{} = {} {}".format(item[0], type(item[1]), item[1]))
 
+    def _set_selected_pyc_instr(self):
+        if self.current_pyc_instr < self.pyc.count():
+            self.pyc.item(self.current_pyc_instr).setSelected(True)
+
+    def _increment_pyc_instr_counter(self):
+        if self.current_pyc_instr < self.pyc.count():
+            self.current_pyc_instr += 1
+            while not self.pyc.item(self.current_pyc_instr).text():
+                self.current_pyc_instr += 1
+
     def step(self):
         self.vm.step()
         self.set_local_vars()
+        self._increment_pyc_instr_counter()
+        self._set_selected_pyc_instr()
 
 
 def compile_file(file_name):
