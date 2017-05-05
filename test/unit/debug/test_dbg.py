@@ -1,4 +1,5 @@
 import sys
+from unittest.mock import Mock, patch
 
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QGridLayout
@@ -32,6 +33,10 @@ class TestDbg:
         open_action = self.dbg.open_action()
         assert open_action.text() == 'Open'
 
+    def test_step_action__names_action_step(self):
+        step_action = self.dbg.step_action()
+        assert step_action.text() == 'Step'
+
     def test_set_local_vars__sets_local_vars_from_vm_current_frame(self):
         f = Frame(None)
         f.locals = {"foo": "bar"}
@@ -45,3 +50,10 @@ class TestDbg:
         self.dbg.vm.push_frame(f)
         self.dbg.set_local_vars()
         assert self.dbg.local_vars.count() == 2
+
+    def test_step__advances_vm(self):
+        vm = Mock()
+        vm.current_frame.locals = {}
+        self.dbg.vm = vm
+        self.dbg.step()
+        vm.step.assert_called()

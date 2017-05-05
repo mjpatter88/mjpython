@@ -24,6 +24,7 @@ class Main(QMainWindow):
     def setup_toolbar(self, dbg):
         toolbar = self.addToolBar('Open')
         toolbar.addAction(dbg.open_action())
+        toolbar.addAction(dbg.step_action())
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

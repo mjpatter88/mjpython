@@ -72,6 +72,12 @@ class Dbg(QWidget):
         open_action.triggered.connect(self.show_open_dialog)
         return open_action
 
+    def step_action(self):
+        step_icon = QIcon.fromTheme('media-playback-start')
+        step_action = QAction(step_icon, 'Step', self)
+        step_action.triggered.connect(self.step)
+        return step_action
+
     def show_open_dialog(self):
         file_name = QFileDialog.getOpenFileName(self, 'Open file')
 
@@ -100,8 +106,13 @@ class Dbg(QWidget):
         self.vm.set_code(pyc)
 
     def set_local_vars(self):
+        self.local_vars.clear()
         for item in self.vm.current_frame.locals.items():
             self.local_vars.addItem("{} = {} {}".format(item[0], type(item[1]), item[1]))
+
+    def step(self):
+        self.vm.step()
+        self.set_local_vars()
 
 
 def compile_file(file_name):
